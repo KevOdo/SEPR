@@ -1,3 +1,3 @@
 # SEPR
 
-Project repo for the Depressed Disciple SEPR Zombies project.
+Project repo for the Depressed Discipline SEPR Zombies project.
