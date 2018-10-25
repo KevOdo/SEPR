@@ -36,9 +36,11 @@
 .header{
 	background-color: #658E9C;
 	font-size: 60px;
-	padding: 5px;
 	font-family: Courier;
     color: #514663;
 	text-align: center;
 	vertical-align: middle;
+	padding-top: 30px;
+	padding-bottom: 20px;
+	
 }
