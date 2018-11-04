@@ -44,3 +44,9 @@
 	padding-bottom: 20px;
 	
 }
+
+.borderlist{
+	border: 2px solid black;
+	padding: 0.80em;
+	margin: 0;
+}
