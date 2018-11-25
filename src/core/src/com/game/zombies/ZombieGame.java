@@ -21,16 +21,16 @@ public class ZombieGame extends Game {
 		super.render();
 		changeFullscreen();
 	}
-	
+
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
 	}
-	
+
 	public void changeFullscreen() {
 		if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 			if(fullscreen) {
-				Gdx.graphics.setWindowedMode(800, 480);
+				Gdx.graphics.setWindowedMode(1280, 720);
 				fullscreen = false;
 			}
 			else {
