@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen implements Screen {
-	
+
 	final ZombieGame game;
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
@@ -23,13 +23,13 @@ public class GameScreen implements Screen {
 	 * Sets up GameScreen
 	 * Sets camera, batch and font,
 	 * Sets up Zombie Sprite
-	*/
+	 */
 	public GameScreen(final ZombieGame game) {
-		
+
 		this.game = game;
 		//create camera + load texture
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 800,480);
+		camera.setToOrtho(false, 1280,720);
 		game.batch = new SpriteBatch();
 		game.font = new BitmapFont();
 		zomIm = new Texture("data/zomb.png");
@@ -37,9 +37,9 @@ public class GameScreen implements Screen {
 		zom.setPosition(10, 10);
 	}
 
-	public void create() {	
+	public void create() {
 
-	}	
+	}
 
 	@Override
 	public void render(float delta) {
@@ -50,33 +50,33 @@ public class GameScreen implements Screen {
 		// tell the camera to update its matrices.
 		camera.update();
 		game.batch.setProjectionMatrix(camera.combined);
-     
+
 		Movement();
-		
+
 		game.batch.begin();
 		game.font.draw(game.batch, "testing", 50,50);
 		zom.draw(game.batch);
-		game.batch.end();	
-		
-		
-		}
-				
+		game.batch.end();
+
+
+	}
+
 	//Checks input for zombie movement - will be moved to HumanoidClass
 	public void Movement() {
-		
-		 if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-	                zom.translateY(5f);
-	        }
-		 if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-             zom.translateY(-5f);
-     }
-		
-	    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-                zom.translateX(-5f);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-                zom.translateX(5f);   
-        }
+
+		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+			zom.translateY(5f);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+			zom.translateY(-5f);
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+			zom.translateX(-5f);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+			zom.translateX(5f);
+		}
 	}
 
 	@Override
