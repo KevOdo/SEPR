@@ -64,7 +64,7 @@ public class MainMenu implements Screen { //The Main Menu Screen
 		Skin skin = new Skin(atlas);
 		Table table = new Table(skin);
 
-		table.setBounds(595,320,40f,40f);
+		table.setBounds(595,340,40f,40f);
 		TextButton.TextButtonStyle txtButtonStyle = new TextButton.TextButtonStyle();
 		txtButtonStyle.up = skin.getDrawable("button.up");
 		txtButtonStyle.down = skin.getDrawable("button.down");
@@ -86,7 +86,7 @@ public class MainMenu implements Screen { //The Main Menu Screen
 		});
 
 		Table table2 = new Table(skin);
-		table2.setBounds(595,200,40f,40f);
+		table2.setBounds(595,240,40f,40f);
 
 		TextButton buttonLoadGame = new TextButton("LOAD GAME",txtButtonStyle);
 		buttonLoadGame.pad(20);
@@ -94,12 +94,12 @@ public class MainMenu implements Screen { //The Main Menu Screen
 		buttonLoadGame.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				System.out.print("Load game");
+				System.out.println("Load Game");
 			}
 		});
 
 		Table table3 = new Table(skin);
-		table3.setBounds(595,80,40f,40f);
+		table3.setBounds(595,140,40f,40f);
 
 		TextButton buttonExit = new TextButton("EXIT",txtButtonStyle);
 		buttonExit.pad(20);
@@ -110,13 +110,29 @@ public class MainMenu implements Screen { //The Main Menu Screen
 				Gdx.app.exit();
 			}
 		});
+		
+		Table table4 = new Table(skin);
+		table4.setBounds(595,40,40f,40f);
+		
+		TextButton buttonCollision = new TextButton("COLLISION TEST",txtButtonStyle);
+		buttonCollision.pad(20);
+
+		buttonCollision.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new CollisionScreen(game));
+				dispose();
+			}
+		});
 
 		table.add(buttonNewGame);
 		table2.add(buttonLoadGame);
 		table3.add(buttonExit);
+		table4.add(buttonCollision);
 		stage.addActor(table);
 		stage.addActor(table2);
 		stage.addActor(table3);
+		stage.addActor(table4);
 
 	}
 
