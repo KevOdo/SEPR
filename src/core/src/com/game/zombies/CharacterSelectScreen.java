@@ -15,27 +15,28 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 
 public class CharacterSelectScreen implements Screen{
 
     private Stage stage;
-
     final ZombieGame game;
-    BitmapFont customFont;
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int screenHeight = screenSize.height;
-    int screenWidth = screenSize.width;
+    private BitmapFont customFont;
+    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private int screenHeight = screenSize.height;
+    private int screenWidth = screenSize.width;
     private  Texture[] characterText= new Texture[2];
     private String[] characterString = new String[2];
     private SpriteBatch batch = new SpriteBatch();
+    private Integer currentChar = 0;
 
     public CharacterSelectScreen(final ZombieGame game){
         this.game = game;
         characterText[0] = new Texture((Gdx.files.internal("core/assets/strong_character/Strong_Character0.png")));
-        characterString[0] = "The PE Student. \n Perk: +Strength \n Ready to punch some zombies!!";
+        characterString[0] = "The PE Student. \n \n Perk: + Strength \n \n Ready to punch some zombies!!";
+        characterText[1] = new Texture((Gdx.files.internal("core/assets/speed_character/Speed_Character0.png")));
+        characterString[1] = "The Engineering Student. \n \n Perk: + Speed \n \n I don't think I built this \n to go this fast!";
     }
 
     public void setFont(String fileLocation, int size) { //Allows use of TrueType Fonts
@@ -78,6 +79,11 @@ public class CharacterSelectScreen implements Screen{
         buttonCharacterRight.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(currentChar == characterString.length - 1){
+                    currentChar = 0;
+                }
+                else
+                    currentChar++;
             }
         });
         Table table2 = new Table(skin);
@@ -88,6 +94,12 @@ public class CharacterSelectScreen implements Screen{
         buttonCharacterLeft.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if(currentChar == 0){
+                    currentChar = characterString.length - 1;
+                }
+                else {
+                    currentChar--;
+                }
             }
         });
         Table table3 = new Table(skin);
@@ -98,7 +110,7 @@ public class CharacterSelectScreen implements Screen{
         buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new MainMenu(game));
             }
         });
         Table table4 = new Table(skin);
@@ -126,14 +138,13 @@ public class CharacterSelectScreen implements Screen{
         setFont("data/MenuFont.ttf", 20);
         customFont.setColor(0f, 0f, 0f, 1f);
         customFont.draw(game.batch,"Character Select",screenWidth - 1900,screenHeight - 400);
-        customFont.draw(game.batch, characterString[0],screenWidth - 1400,screenHeight - 600);
+        customFont.draw(game.batch, characterString[currentChar],screenWidth - 1400,screenHeight - 600);
         game.batch.end();
         Gdx.input.setInputProcessor(stage);
 
         batch.begin();
-        batch.draw(characterText[0], screenWidth - 1780, screenHeight - 900, 400, 400);
+        batch.draw(characterText[currentChar], screenWidth - 1780, screenHeight - 900, 400, 400);
         batch.end();
-
     }
 
     @Override
