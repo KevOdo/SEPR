@@ -117,22 +117,12 @@ public class MainMenu implements Screen { //The Main Menu Screen
 		TextButton buttonCollision = new TextButton("COLLISION TEST",txtButtonStyle);
 		buttonCollision.pad(20);
 
-		buttonCollision.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new CollisionScreen(game));
-				dispose();
-			}
-		});
-
 		table.add(buttonNewGame);
 		table2.add(buttonLoadGame);
 		table3.add(buttonExit);
-		table4.add(buttonCollision);
 		stage.addActor(table);
 		stage.addActor(table2);
 		stage.addActor(table3);
-		stage.addActor(table4);
 
 	}
 
