@@ -5,16 +5,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Player extends Humanoid  {
 	protected Sprite figure;
 	private TextureRegion[] playerWalk;
-	private String ability;
+	private Integer[] ability = new Integer[5];
 	private Animation<TextureRegion> walkAnimation;
 	private static final int frameCols = 1;
 	private int frameRows = 2;
+	//ability split up as [speed, strength, health, stealth, ??)
 
 	private Texture playerText;
 	
