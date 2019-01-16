@@ -67,7 +67,7 @@ public class CharacterSelectScreen implements Screen{
         buttonDone.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new GameScreen(game, currentChar));
                 dispose();
             }
         });
