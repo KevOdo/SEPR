@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class GameScreen extends ApplicationAdapter  implements Screen, InputProcessor {
 
@@ -24,6 +25,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	SpriteBatch sb;
 	Texture texture;
 	Sprite player;
+
 	TiledMapRenderer tiledMapRenderer;
 
     private Body playerBody;
@@ -33,9 +35,14 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     boolean doSleep = true;
     World world;
 
-	public GameScreen(ZombieGame game) {
+    Player playerV;
+    private float stateTime;
+
+
+	public GameScreen(ZombieGame game, int charNum) {
 		this.game = game;
 		Box2D.init();
+        playerV = new Player(charNum);
 	}
 
 	@Override
@@ -54,6 +61,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb = new SpriteBatch();
 		texture = new Texture(Gdx.files.internal("core/assets/strong_character/Strong_Character0.png"));
 		player = new Sprite(texture);
+
+        /////
+
 
         world = new World(gravity,doSleep);
         BodyDef bodyDef = new BodyDef();
@@ -93,6 +103,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
 
+
+        stateTime = 0f;
+
 	}
 
 	@Override
@@ -101,6 +114,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 			create();
 			complete = true;
 		}
+
+
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -113,6 +128,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
         player.setPosition(playerBody.getPosition().x, playerBody.getPosition().y);
 		player.draw(sb);
+
+		stateTime += Gdx.graphics.getDeltaTime();
+        sb.draw(playerV.getWalkAnimation().getKeyFrame(stateTime, true), 0, 0);
 
 		sb.end();
 		camera.position.set(player.getX(), player.getY(), 0);
