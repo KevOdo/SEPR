@@ -24,8 +24,8 @@ public class CharacterSelectScreen implements Screen{
     final ZombieGame game;
     private BitmapFont customFont;
     private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private int screenHeight = screenSize.height;
-    private int screenWidth = screenSize.width;
+    private int screenHeight = Gdx.graphics.getHeight();
+    private int screenWidth = Gdx.graphics.getWidth();
     private  Texture[] characterText= new Texture[2];
     private String[] characterString = new String[2];
     private SpriteBatch batch = new SpriteBatch();
@@ -72,7 +72,7 @@ public class CharacterSelectScreen implements Screen{
             }
         });
         Table table1 = new Table(skin);
-        table1.setBounds( screenWidth - 800,screenHeight - 1020,20f,20f);
+        table1.setBounds( screenWidth - (screenWidth/10),screenHeight/10,20f,20f);
 
         TextButton buttonCharacterRight = new TextButton(">>",txtButtonStyle);
         buttonCharacterRight.pad(20);
@@ -87,7 +87,7 @@ public class CharacterSelectScreen implements Screen{
             }
         });
         Table table2 = new Table(skin);
-        table2.setBounds(screenWidth - 1400,screenHeight - 1000,20f,20f);
+        table2.setBounds(screenWidth/100 * 40,screenHeight/16,20f,20f);
 
         TextButton buttonCharacterLeft = new TextButton("<<",txtButtonStyle);
         buttonCharacterLeft.pad(20);
@@ -103,7 +103,7 @@ public class CharacterSelectScreen implements Screen{
             }
         });
         Table table3 = new Table(skin);
-        table3.setBounds(screenWidth - 1800,screenHeight - 1000,20f,20f);
+        table3.setBounds(screenWidth/100 * 10,screenHeight/16,20f,20f);
 
         TextButton buttonExit = new TextButton("BACK",txtButtonStyle);
         buttonExit.pad(20);
@@ -114,7 +114,7 @@ public class CharacterSelectScreen implements Screen{
             }
         });
         Table table4 = new Table(skin);
-        table4.setBounds(screenWidth - 800,screenHeight - 430,20f,20f);
+        table4.setBounds(screenWidth - (screenWidth/10),screenHeight - (screenHeight/ 8),20f,20f);
 
         table1.add(buttonDone);
         table2.add(buttonCharacterRight);
@@ -137,13 +137,13 @@ public class CharacterSelectScreen implements Screen{
         game.batch.begin();
         setFont("data/MenuFont.ttf", 20);
         customFont.setColor(0f, 0f, 0f, 1f);
-        customFont.draw(game.batch,"Character Select",screenWidth - 1900,screenHeight - 400);
-        customFont.draw(game.batch, characterString[currentChar],screenWidth - 1400,screenHeight - 600);
+        customFont.draw(game.batch,"Character Select",screenWidth/20, screenHeight - (screenHeight/18));
+        customFont.draw(game.batch, characterString[currentChar],screenWidth/2.5f, 2* (screenHeight/3));
         game.batch.end();
         Gdx.input.setInputProcessor(stage);
 
         batch.begin();
-        batch.draw(characterText[currentChar], screenWidth - 1780, screenHeight - 900, 400, 400);
+        batch.draw(characterText[currentChar], screenWidth/10, screenHeight/4, 400, 400);
         batch.end();
     }
 
