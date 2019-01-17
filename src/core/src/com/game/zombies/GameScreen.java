@@ -4,7 +4,6 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -14,35 +13,34 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class GameScreen extends ApplicationAdapter  implements Screen, InputProcessor {
 
 	ZombieGame game;
 	TiledMap tiledMap;
 	OrthographicCamera camera;
-	boolean complete = false;
 	SpriteBatch sb;
 	Texture texture;
-	Sprite player;
-
-	TiledMapRenderer tiledMapRenderer;
-
-    private Body playerBody;
-	Box2DDebugRenderer debugRenderer;
-	final float PIXELS_TO_METERS = 100f;
-    Vector2 gravity = new Vector2(0,0);
-    boolean doSleep = true;
     World world;
-
-    Player playerV;
+	TiledMapRenderer tiledMapRenderer;
+    Player playerAnim;
+	Box2DDebugRenderer debugRenderer;
     private float stateTime;
+    private Body playerBody;	
+
+	final float PIXELS_TO_METERS = 100f;
+    private Vector2 gravity = new Vector2(0,0);
+	private boolean complete = false;
+    boolean doSleep = true;
+    private int playerPosX = Gdx.graphics.getWidth() /2;
+    private int playerPosY = Gdx.graphics.getHeight() /2;
+
 
 
 	public GameScreen(ZombieGame game, int charNum) {
 		this.game = game;
 		Box2D.init();
-        playerV = new Player(charNum);
+        playerAnim = new Player(charNum);
 	}
 
 	@Override
@@ -59,13 +57,11 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
 
 		sb = new SpriteBatch();
-		texture = new Texture(Gdx.files.internal("core/assets/strong_character/Strong_Character0.png"));
-		player = new Sprite(texture);
 
         world = new World(gravity,doSleep);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DynamicBody;
-        bodyDef.position.set(Gdx.graphics.getWidth() /2, Gdx.graphics.getHeight() /2);
+        bodyDef.position.set(playerPosX, playerPosY);
 
         playerBody = world.createBody(bodyDef);
 
@@ -120,14 +116,11 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
 
-        player.setPosition(playerBody.getPosition().x, playerBody.getPosition().y);
-		player.draw(sb);
-
 		stateTime += Gdx.graphics.getDeltaTime();
-        sb.draw(playerV.getWalkAnimation().getKeyFrame(stateTime, true), 0, 0);
+        sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
 
 		sb.end();
-		camera.position.set(player.getX(), player.getY(), 0);
+		camera.position.set(playerBody.getPosition().x, playerBody.getPosition().y, 0);
 		camera.update();
 
 		camera.position.x = MathUtils.clamp(camera.position.x, 1280 / 2, 1600 - 1280 /2);
@@ -159,9 +152,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         if (keycode == Input.Keys.RIGHT) {
             playerBody.applyForceToCenter(5000f,0f,true);
         }
-
-        player.setPosition((playerBody.getPosition().x * PIXELS_TO_METERS) - player.getWidth()/2 ,
-                (playerBody.getPosition().y * PIXELS_TO_METERS) -player.getHeight()/2 );
         return true;
 	}
 
@@ -179,8 +169,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         if (keycode == Input.Keys.RIGHT){
             playerBody.applyLinearImpulse(new Vector2(-playerBody.getLinearVelocity().x, 0f),playerBody.getPosition(),true);
         }
-        player.setPosition((playerBody.getPosition().x * PIXELS_TO_METERS) - player.getWidth()/2 ,
-                (playerBody.getPosition().y * PIXELS_TO_METERS) -player.getHeight()/2 );
         return true;
     }
 
