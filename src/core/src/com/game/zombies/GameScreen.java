@@ -62,9 +62,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		texture = new Texture(Gdx.files.internal("core/assets/strong_character/Strong_Character0.png"));
 		player = new Sprite(texture);
 
-        /////
-
-
         world = new World(gravity,doSleep);
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DynamicBody;
@@ -103,9 +100,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         Gdx.input.setInputProcessor(this);
         debugRenderer = new Box2DDebugRenderer();
 
-
         stateTime = 0f;
-
 	}
 
 	@Override
@@ -114,7 +109,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 			create();
 			complete = true;
 		}
-
 
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -135,7 +129,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb.end();
 		camera.position.set(player.getX(), player.getY(), 0);
 		camera.update();
-		//Movement();
+
 		camera.position.x = MathUtils.clamp(camera.position.x, 1280 / 2, 1600 - 1280 /2);
 		camera.position.y = MathUtils.clamp(camera.position.y, 720 /2, 1024 - 720 /2);
 
