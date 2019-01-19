@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class GameScreen extends ApplicationAdapter  implements Screen, InputProcessor {
 
@@ -25,6 +24,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private Box2DDebugRenderer debugRenderer;
     private float stateTime;
     private Body playerBody;
+    private Body Edge;
     private Body doorBody;
 
 	final float PIXELS_TO_METERS = 100f;
@@ -33,6 +33,10 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private boolean doSleep = true;
     private int playerPosX = Gdx.graphics.getWidth() /2;
     private int playerPosY = Gdx.graphics.getHeight() /2;
+    private float playerWidth = 1;
+    private float playerHeight = 1;
+    private float mapHeight = 600;
+    private float mapWidth = 1000;
 
 
 
@@ -63,43 +67,17 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb = new SpriteBatch();
 
         world = new World(gravity,doSleep);
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyType.DynamicBody;
-        bodyDef.position.set(playerPosX, playerPosY);
-        playerBody = world.createBody(bodyDef);
+        
+        playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);      
+        Edge = BodyMaker.createBox(world, 0, 0, 0, mapHeight, true, true);
+        Edge = BodyMaker.createBox(world, 0, 0, mapWidth, 0, true, true);
+        Edge = BodyMaker.createBox(world, 0, mapHeight, mapWidth, 0, true, true);
+        Edge = BodyMaker.createBox(world, mapWidth, 0, 0, mapHeight, true, true);
+        doorBody = BodyMaker.createBox(world,100,100,50,50,true,true);
+        
         playerBody.setUserData("playerBody");
-
-        BodyDef doorBodyDef = new BodyDef();
-        PolygonShape doorShape = new PolygonShape();
-        doorShape.setAsBox(50,50);
-        doorBodyDef.type = BodyType.StaticBody;
-        doorBodyDef.position.set(100,100);
-        doorBody = world.createBody(bodyDef);
         doorBody.setUserData("doorBody");
-
-        /*
-        float widthInMeters = 1600 - 64/ PIXELS_TO_METERS;
-        float heightInMeters = 1024 - 64 / PIXELS_TO_METERS;
-        Vector2 lowerLeftCorner = new Vector2(0,0);
-        Vector2 lowerRightCorner  = new Vector2(widthInMeters,0);
-        Vector2 upperLeftCorner  = new Vector2(0,heightInMeters);
-        Vector2 upperRightCorner  = new Vector2(widthInMeters,heightInMeters);
-
-        BodyDef screenBorderDef = new BodyDef();
-        screenBorderDef.position.set(0,0);
-        Body screenBorderBody = world.createBody(objectBodyDef);
-        screenBorderBody.setType(BodyType.StaticBody);
-        EdgeShape screenBorderShape = new EdgeShape();
-
-        screenBorderShape.set(lowerLeftCorner,lowerRightCorner);
-        screenBorderBody.createFixture(screenBorderShape,0);
-        screenBorderShape.set(lowerRightCorner,upperRightCorner);
-        screenBorderBody.createFixture(screenBorderShape,0);
-        screenBorderShape.set(upperRightCorner,upperLeftCorner);
-        screenBorderBody.createFixture(screenBorderShape,0);
-        screenBorderShape.set(upperLeftCorner,lowerLeftCorner);
-        screenBorderBody.createFixture(screenBorderShape,0);
-        */
+        
         ListenerClass lc = new ListenerClass();
         world.setContactListener(lc);
 
@@ -130,8 +108,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
 
 		sb.end();
-
-
 
         camera.zoom = 0.5f;
 		camera.position.set(playerBody.getPosition().x, playerBody.getPosition().y, 0);
