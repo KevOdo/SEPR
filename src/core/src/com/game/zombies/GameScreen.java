@@ -3,7 +3,6 @@ package com.game.zombies;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -17,22 +16,22 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 public class GameScreen extends ApplicationAdapter  implements Screen, InputProcessor {
 
 	ZombieGame game;
-	TiledMap tiledMap;
-	OrthographicCamera camera;
-	SpriteBatch sb;
-	Texture texture;
-    World world;
-	TiledMapRenderer tiledMapRenderer;
-    Player playerAnim;
-	Box2DDebugRenderer debugRenderer;
+    private TiledMap tiledMap;
+    private OrthographicCamera camera;
+    private SpriteBatch sb;
+    private World world;
+    private TiledMapRenderer tiledMapRenderer;
+    private Player playerAnim;
+    private Box2DDebugRenderer debugRenderer;
     private float stateTime;
     private Body playerBody;
     private Body Edge;
+    private Body doorBody;
 
 	final float PIXELS_TO_METERS = 100f;
     private Vector2 gravity = new Vector2(0,0);
 	private boolean complete = false;
-    boolean doSleep = true;
+    private boolean doSleep = true;
     private int playerPosX = Gdx.graphics.getWidth() /2;
     private int playerPosY = Gdx.graphics.getHeight() /2;
     private float playerWidth = 1;
@@ -48,6 +47,11 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         playerAnim = new Player(charNum);
 	}
 
+    public void changeMap(){
+        tiledMap = new TmxMapLoader().load("data/map_compsci.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+    }
+
 	@Override
 	public void create () {
 
@@ -57,7 +61,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,w,h);
 		camera.update();
-		tiledMap = new TmxMapLoader().load("data/map.tmx");
+		tiledMap = new TmxMapLoader().load("data/map_accom.tmx");
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 
@@ -70,8 +74,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         Edge = BodyMaker.createBox(world, 0, 0, mapWidth, 0, true, true);
         Edge = BodyMaker.createBox(world, 0, mapHeight, mapWidth, 0, true, true);
         Edge = BodyMaker.createBox(world, mapWidth, 0, 0, mapHeight, true, true);
-
-
+        doorBody = BodyMaker.createBox(world,100,100,50,50,true,true);
+        
         ListenerClass lc = new ListenerClass();
         world.setContactListener(lc);
 
@@ -83,7 +87,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
 	@Override
 	public void render (float delta) {
-		if(complete == false){
+		if(!complete){
 			create();
 			complete = true;
 		}
@@ -102,11 +106,16 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
 
 		sb.end();
+
+
+
+        camera.zoom = 0.5f;
 		camera.position.set(playerBody.getPosition().x, playerBody.getPosition().y, 0);
+
 		camera.update();
 
 		camera.position.x = MathUtils.clamp(camera.position.x, 1280 / 2, 1600 - 1280 /2);
-		camera.position.y = MathUtils.clamp(camera.position.y, 720 /2, 1024 - 720 /2);
+		camera.position.y = MathUtils.clamp(camera.position.y, 720 /2, 736 - 720 /2);
 
 	}
 
