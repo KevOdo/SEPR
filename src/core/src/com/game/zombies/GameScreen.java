@@ -33,8 +33,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private boolean doSleep = true;
 	private float w = Gdx.graphics.getWidth();
 	private float h = Gdx.graphics.getHeight();
-    private float playerPosX = w /2;
-    private float playerPosY = h /2;
+    private static float  playerPosX = 368;
+    private static float playerPosY = 410;
     private float playerWidth = 20;
     private float playerHeight = 1;
     private float mapHeight = h - 320;
@@ -44,6 +44,10 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private float doorWidth = 15;
     private float doorHeight = 1;
     private String map;
+    private static int mapSizeXlonger = 1600;
+    private static int mapSizeXshorter = 1280;
+    private static int mapSizeYhigher = 736;
+    private static int mapSizeYlower = 736;
 
 	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
 		this.game = game;
@@ -59,10 +63,20 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         changeMap(map);
 		game.dispose();
 	}
-    
+
+	public static void changeCamera(int xlong, int xshort, int yhigh, int ylow, float posX, float posY){
+        mapSizeXlonger = xlong;
+        mapSizeXshorter = xshort;
+        mapSizeYhigher = yhigh;
+        mapSizeYlower = ylow;
+        playerPosX = posX;
+        playerPosY = posY;
+    }
+
     public static void changeMap(String map) {
     	tiledMap = new TmxMapLoader().load(map);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+
     }
 
 	@Override
@@ -125,8 +139,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
 		camera.update();
 
-		camera.position.x = MathUtils.clamp(camera.position.x, 1280 / 2, 1600 - 1280 /2);
-		camera.position.y = MathUtils.clamp(camera.position.y, 720 /2, 736 - 720 /2);
+		camera.position.x = MathUtils.clamp(camera.position.x, mapSizeXshorter / 2, mapSizeXlonger - 1280 /2);
+		camera.position.y = MathUtils.clamp(camera.position.y, mapSizeYlower /2, mapSizeYhigher - 720 /2);
 
 	}
 

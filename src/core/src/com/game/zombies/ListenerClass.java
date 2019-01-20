@@ -1,5 +1,6 @@
 package com.game.zombies;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -15,6 +16,7 @@ public class ListenerClass implements ContactListener{
 			if(!(nextMap.equals("data/map_compsci.tmx"))){
 				nextMap = "data/map_derwent.tmx";
 			}
+            GameScreen.changeCamera(1920,640,912,368,64f,625f);
 			GameScreen.changeGame(0, nextMap, 50, 50);
 		}
 		
