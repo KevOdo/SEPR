@@ -63,17 +63,17 @@ public class Player extends Humanoid  {
 	private void move() {
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-			figure.translateY(speed);
+			figure.translateY(currentSpeed);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-			figure.translateY(speed);
+			figure.translateY(currentSpeed);
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-			figure.translateX(speed);
+			figure.translateX(currentSpeed);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-			figure.translateX(speed);
+			figure.translateX(currentSpeed);
 		}
 	}
 	
@@ -84,4 +84,5 @@ public class Player extends Humanoid  {
 	private void useAbility() {
 		
 	}
+
 }

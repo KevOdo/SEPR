@@ -15,11 +15,12 @@ public class Powerup {
     private Texture tempText;
     private Animation<TextureRegion> powerAni;
     private static final int frameCols = 1, frameRows = 2;
+    private boolean flagDelete = false;
     //powerup types in order = [speed, strength, health]
 
 
     public Powerup(){
-    powerType = rand.nextInt(2) + 1;
+    powerType = rand.nextInt(2);
 
     switch(powerType){
         case 0:
@@ -57,6 +58,18 @@ public class Powerup {
 
     public Animation<TextureRegion> getPowerAni(){
         return powerAni;
+    }
+    
+    public void setFlagDelete() {
+    	if(flagDelete) {
+    		flagDelete = false;
+    	}
+    	else {
+        	flagDelete = true;
+    	}
+    }
+    public boolean getFlag() {
+    	return flagDelete;
     }
 }
 
