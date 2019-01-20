@@ -6,16 +6,16 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 public class ListenerClass implements ContactListener{
-
-	final ZombieGame game = null;
+	private String nextMap = "data/map_compsci.tmx";
 
 	@Override
 	public void beginContact(Contact contact) {
 		if(contact.getFixtureA().getBody().getUserData() == "playerBody" &&
 		contact.getFixtureB().getBody().getUserData()=="doorBody"){
-			GameScreen gs = new GameScreen(game, 1);
-			gs.changeMap();
-			System.out.println(contact.getFixtureA().getBody().getUserData());
+			if(!(nextMap.equals("data/map_compsci.tmx"))){
+				nextMap = "data/map_derwent.tmx";
+			}
+			GameScreen.changeGame(0, nextMap, 50, 50);
 		}
 		
 	}

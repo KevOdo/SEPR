@@ -14,12 +14,12 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public class GameScreen extends ApplicationAdapter  implements Screen, InputProcessor {
 
-	ZombieGame game;
-    private TiledMap tiledMap;
+	static ZombieGame game;
+    private static TiledMap tiledMap;
     private OrthographicCamera camera;
     private SpriteBatch sb;
     private World world;
-    private TiledMapRenderer tiledMapRenderer;
+    private static TiledMapRenderer tiledMapRenderer;
     private Player playerAnim;
     private Box2DDebugRenderer debugRenderer;
     private float stateTime;
@@ -31,36 +31,47 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private Vector2 gravity = new Vector2(0,0);
 	private boolean complete = false;
     private boolean doSleep = true;
-    private int playerPosX = Gdx.graphics.getWidth() /2;
-    private int playerPosY = Gdx.graphics.getHeight() /2;
-    private float playerWidth = 1;
+	private float w = Gdx.graphics.getWidth();
+	private float h = Gdx.graphics.getHeight();
+    private float playerPosX = w /2;
+    private float playerPosY = h /2;
+    private float playerWidth = 20;
     private float playerHeight = 1;
-    private float mapHeight = 600;
-    private float mapWidth = 1000;
+    private float mapHeight = h - 320;
+    private float mapWidth = w - playerWidth;
+    private static float doorX;
+    private static float doorY;
+    private float doorWidth = 15;
+    private float doorHeight = 1;
+    private String map;
 
-
-
-	public GameScreen(ZombieGame game, int charNum) {
+	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
 		this.game = game;
+		this.map = map;
 		Box2D.init();
         playerAnim = new Player(charNum);
+        this.doorX = doorX;
+        this.doorY = doorY;
 	}
-
-    public void changeMap(){
-        tiledMap = new TmxMapLoader().load("data/map_compsci.tmx");
+	
+	public static void changeGame(int charNum, String map, float doorX, float doorY) {
+		game.setScreen(new GameScreen(game, charNum, map, doorX, doorY));
+        changeMap(map);
+		game.dispose();
+	}
+    
+    public static void changeMap(String map) {
+    	tiledMap = new TmxMapLoader().load(map);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
 	@Override
 	public void create () {
 
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,w,h);
 		camera.update();
-		tiledMap = new TmxMapLoader().load("data/map_accom.tmx");
+		tiledMap = new TmxMapLoader().load(map);
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
 
@@ -69,11 +80,11 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         world = new World(gravity,doSleep);
         
         playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);      
-        Edge = BodyMaker.createBox(world, 0, 0, 0, mapHeight, true, true);
-        Edge = BodyMaker.createBox(world, 0, 0, mapWidth, 0, true, true);
-        Edge = BodyMaker.createBox(world, 0, mapHeight, mapWidth, 0, true, true);
-        Edge = BodyMaker.createBox(world, mapWidth, 0, 0, mapHeight, true, true);
-        doorBody = BodyMaker.createBox(world,100,100,50,50,true,true);
+        //Edge = BodyMaker.createBox(world, 300, 0, 0, mapHeight, true, true);
+        //Edge = BodyMaker.createBox(world, 0, 180, mapWidth, 0, true, true);
+        //Edge = BodyMaker.createBox(world, 0, mapHeight, mapWidth, 0, true, true);
+        //Edge = BodyMaker.createBox(world, mapWidth, 0, 0, mapHeight, true, true);
+        doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
         
         playerBody.setUserData("playerBody");
         doorBody.setUserData("doorBody");

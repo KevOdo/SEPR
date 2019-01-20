@@ -67,7 +67,7 @@ public class CharacterSelectScreen implements Screen{
         buttonDone.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game, currentChar));
+                game.setScreen(new GameScreen(game, currentChar, "data/map_accom.tmx", 1050, 401));
                 dispose();
             }
         });
@@ -140,8 +140,8 @@ public class CharacterSelectScreen implements Screen{
         customFont.draw(game.batch,"Character Select",screenWidth/20, screenHeight - (screenHeight/18));
         customFont.draw(game.batch, characterString[currentChar],screenWidth/2.5f, 2* (screenHeight/3));
         game.batch.end();
+        
         Gdx.input.setInputProcessor(stage);
-
         batch.begin();
         batch.draw(characterText[currentChar], screenWidth/10, screenHeight/4, 400, 400);
         batch.end();
