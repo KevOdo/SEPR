@@ -27,6 +27,10 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private Body playerBody;
     private Body Edge;
     private Body doorBody;
+    private int leftX;
+    private int rightX;
+    private int topY;
+    private int botY;
 
 	final float PIXELS_TO_METERS = 100f;
     private Vector2 gravity = new Vector2(0,0);
@@ -35,11 +39,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	private float w = Gdx.graphics.getWidth();
 	private float h = Gdx.graphics.getHeight();
     private static float playerPosX = 380;
-    private static float playerPosY = 410;
-    private float playerWidth = 10;
-    private float playerHeight = 1;
-    private float mapHeight = h - 320;
-    private float mapWidth = w - playerWidth;
+    private static float playerPosY = 310;
+    private float playerWidth = 20;
+    private float playerHeight = 20;
     private static float doorX;
     private static float doorY;
     private float doorWidth = 15;
@@ -69,7 +71,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         ListenerClass lc = new ListenerClass();
         game.setScreen(new GameScreen(game, charNum, map, doorX, doorY));
         changeMap(map);
-		game.dispose();
 	}
 
 	public static void changeScreen(){
@@ -104,16 +105,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		camera.update();
 		tiledMap = new TmxMapLoader().load(map);
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-
-		MapProperties prop = tiledMap.getProperties();
-
-		int mapWidth = prop.get("width", Integer.class);
-		int mapHeight = prop.get("height", Integer.class);
-		int tilePixelWidth = prop.get("tilewidth", Integer.class);
-		int tilePixelHeight = prop.get("tileheight", Integer.class);
-
-		mapPixelWidth = mapWidth * tilePixelWidth;
-		mapPixelHeight = mapHeight * tilePixelHeight;
 		System.out.println("Width = " + mapPixelWidth + " Height = " + mapPixelHeight);
 		
 		sb = new SpriteBatch();
@@ -123,12 +114,24 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);   
         doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
         
-        int leftX = (int) ((mapSizeXlonger-1280/2)-(mapSizeXshorter/2) - playerWidth);
-        int rightX = (int) (leftX + (mapSizeXlonger-1280/2) - 2*playerWidth);
-        Edge = BodyMaker.createBox(world, leftX, 0, 0, mapPixelHeight, true, true);
-        //Edge = BodyMaker.createBox(world, 0, 180, mapWidth, 0, true, true);
-        //Edge = BodyMaker.createBox(world, 0, mapHeight, mapWidth, 0, true, true);
-        Edge = BodyMaker.createBox(world, rightX, 0, 0, mapPixelHeight, true, true);
+        if(map.equals("data/map_accom.tmx")) {
+        	topY = (int) (440 - playerHeight);
+        	botY = (int) (190 - playerHeight);
+        	leftX = (int) (320 - playerWidth);
+        	rightX = (int) (1280 - playerWidth);
+        }
+        else {
+            topY = (int) (mapSizeYhigher - mapSizeYlower/2 - playerHeight); 
+            rightX = (int) (mapSizeXlonger - (mapSizeXshorter/2) - playerWidth);
+            leftX = (int) (mapSizeXshorter - 640 - playerWidth);
+            botY = (int) (mapSizeYlower - 360 - playerHeight);
+        }
+        mapPixelHeight = topY - botY;
+        mapPixelWidth = rightX - leftX;
+        Edge = BodyMaker.createBox(world, leftX, botY, 0, mapPixelHeight, true, true);
+        Edge = BodyMaker.createBox(world, leftX, topY, mapPixelWidth, 0, true, true);
+        Edge = BodyMaker.createBox(world, leftX, botY, mapPixelWidth, 0, true, true);
+        Edge = BodyMaker.createBox(world, rightX, botY, 0, mapPixelHeight, true, true);
         
         playerBody.setUserData("playerBody");
         doorBody.setUserData("doorBody");
@@ -201,7 +204,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         if(keycode == Input.Keys.SPACE) {
         	System.out.println("Player x= " + playerBody.getPosition().x);
         	System.out.println("Player y= " + playerBody.getPosition().y);
-        	System.out.println("Edge x= " + Edge.getPosition().x);
+        	//`System.out.println("Edge x= " + Edge.getPosition().x);
         }
         return true;
 	}
