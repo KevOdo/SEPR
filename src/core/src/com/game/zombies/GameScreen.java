@@ -63,17 +63,28 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     }
 	
 	public static void changeGame(int charNum, String map, float doorX, float doorY) {
-		game.setScreen(new GameScreen(game, charNum, map, doorX, doorY));
+        ListenerClass lc = new ListenerClass();
+        game.setScreen(new GameScreen(game, charNum, map, doorX, doorY));
         changeMap(map);
-		game.dispose();
+		//game.dispose();
 	}
+
+	public static void changeScreen(){
+        game.setScreen(new FinalScreen(game));
+    }
     
     public static void changeMap(String map) {
+	    /*
+	    Changes the map through the tiled api.
+	    */
     	tiledMap = new TmxMapLoader().load(map);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
     public static void changeCamera(int xlong, int xshort, int yhigh, int ylow, float xpos, float ypos){
+	    /*
+	    Changes the player spawn location and camera clamping between the different locations.
+	    */
         mapSizeXlonger = xlong;
         mapSizeXshorter = xshort;
         mapSizeYhigher = yhigh;
