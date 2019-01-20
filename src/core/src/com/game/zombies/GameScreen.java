@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -35,7 +36,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	private float h = Gdx.graphics.getHeight();
     private static float playerPosX = 380;
     private static float playerPosY = 410;
-    private float playerWidth = 20;
+    private float playerWidth = 10;
     private float playerHeight = 1;
     private float mapHeight = h - 320;
     private float mapWidth = w - playerWidth;
@@ -48,6 +49,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private static int mapSizeXshorter = 1280;
     private static int mapSizeYhigher = 736;
     private static int mapSizeYlower = 736;
+    private int mapPixelHeight;
+    private int mapPixelWidth;
 
 	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
 		this.game = game;
@@ -66,7 +69,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         ListenerClass lc = new ListenerClass();
         game.setScreen(new GameScreen(game, charNum, map, doorX, doorY));
         changeMap(map);
-		//game.dispose();
+		game.dispose();
 	}
 
 	public static void changeScreen(){
@@ -102,17 +105,30 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		tiledMap = new TmxMapLoader().load(map);
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
+		MapProperties prop = tiledMap.getProperties();
 
+		int mapWidth = prop.get("width", Integer.class);
+		int mapHeight = prop.get("height", Integer.class);
+		int tilePixelWidth = prop.get("tilewidth", Integer.class);
+		int tilePixelHeight = prop.get("tileheight", Integer.class);
+
+		mapPixelWidth = mapWidth * tilePixelWidth;
+		mapPixelHeight = mapHeight * tilePixelHeight;
+		System.out.println("Width = " + mapPixelWidth + " Height = " + mapPixelHeight);
+		
 		sb = new SpriteBatch();
 
         world = new World(gravity,doSleep);
         
-        playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);      
-        //Edge = BodyMaker.createBox(world, 300, 0, 0, mapHeight, true, true);
+        playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);   
+        doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
+        
+        int leftX = (int) ((mapSizeXlonger-1280/2)-(mapSizeXshorter/2) - playerWidth);
+        int rightX = (int) (leftX + (mapSizeXlonger-1280/2) - 2*playerWidth);
+        Edge = BodyMaker.createBox(world, leftX, 0, 0, mapPixelHeight, true, true);
         //Edge = BodyMaker.createBox(world, 0, 180, mapWidth, 0, true, true);
         //Edge = BodyMaker.createBox(world, 0, mapHeight, mapWidth, 0, true, true);
-        //Edge = BodyMaker.createBox(world, mapWidth, 0, 0, mapHeight, true, true);
-        doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
+        Edge = BodyMaker.createBox(world, rightX, 0, 0, mapPixelHeight, true, true);
         
         playerBody.setUserData("playerBody");
         doorBody.setUserData("doorBody");
@@ -181,6 +197,11 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         }
         if (keycode == Input.Keys.RIGHT) {
             playerBody.applyForceToCenter(5000f,0f,true);
+        }
+        if(keycode == Input.Keys.SPACE) {
+        	System.out.println("Player x= " + playerBody.getPosition().x);
+        	System.out.println("Player y= " + playerBody.getPosition().y);
+        	System.out.println("Edge x= " + Edge.getPosition().x);
         }
         return true;
 	}
