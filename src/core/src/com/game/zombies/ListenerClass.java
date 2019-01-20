@@ -13,7 +13,8 @@ public class ListenerClass implements ContactListener{
 	public void beginContact(Contact contact) {
 		if(contact.getFixtureA().getBody().getUserData() == "playerBody" &&
 		contact.getFixtureB().getBody().getUserData()=="doorBody"){
-			if(!(nextMap.equals("data/map_compsci.tmx"))){
+			String map = GameScreen.getMap();
+			if(map.equals("data/map_compsci.tmx")) {
 				nextMap = "data/map_derwent.tmx";
 			}
             GameScreen.changeCamera(1920,640,912,368,64f,625f);
