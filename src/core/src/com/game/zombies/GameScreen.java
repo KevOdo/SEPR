@@ -43,7 +43,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private static float doorY;
     private float doorWidth = 15;
     private float doorHeight = 1;
-    private String map;
+    private static String map;
 
 	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
 		this.game = game;
@@ -57,7 +57,10 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	public static void changeGame(int charNum, String map, float doorX, float doorY) {
 		game.setScreen(new GameScreen(game, charNum, map, doorX, doorY));
         changeMap(map);
-		game.dispose();
+	}
+	
+	public static String getMap() {
+		return map;
 	}
     
     public static void changeMap(String map) {
@@ -120,7 +123,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
 		sb.end();
 
-        camera.zoom = 0.5f;
+        //camera.zoom = 0.5f;
 		camera.position.set(playerBody.getPosition().x, playerBody.getPosition().y, 0);
 
 		camera.update();
