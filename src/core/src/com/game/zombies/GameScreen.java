@@ -212,7 +212,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
 
-        //checkCollision();
 		stateTime += Gdx.graphics.getDeltaTime();
         sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
         if(powerUpBody != null) {
@@ -234,7 +233,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	}
 	
 	public void createTables() {
-		System.out.println("called");
 		int x = (int) mapPixelWidth / (int) collisionLayer.getTileWidth();
         int y = (int) mapPixelHeight / (int) collisionLayer.getTileHeight();
         for(int i = 0; i < x; i++) {
@@ -242,8 +240,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         		TiledMapTileLayer.Cell cell = collisionLayer.getCell(i, j);
                 if (cell != null) {
                     if(cell.getTile().getProperties().containsKey("blocked")){
-                        tableBody = BodyMaker.createBox(world, i*collisionLayer.getTileWidth(), j*collisionLayer.getTileHeight(), collisionLayer.getTileWidth() - 10, collisionLayer.getTileWidth() - 10, true, true);
-                        System.out.println("Made a table");
+                        tableBody = BodyMaker.createBox(world, i*collisionLayer.getTileWidth(), j*collisionLayer.getTileHeight(), collisionLayer.getTileWidth() - 20, collisionLayer.getTileWidth() - 20, true, true);
                     }
                 }
         	}

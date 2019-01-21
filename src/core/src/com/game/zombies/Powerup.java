@@ -20,7 +20,7 @@ public class Powerup {
 
 
     public Powerup(){
-    powerType = rand.nextInt(2);
+    powerType = rand.nextInt(3);
 
     switch(powerType){
         case 0:
