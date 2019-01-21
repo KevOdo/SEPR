@@ -31,6 +31,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private Body Edge;
     private Body doorBody;
     private static Body powerUpBody;
+    private Body tableBody;
     private int leftX;
     private int rightX;
     private int topY;
@@ -62,7 +63,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private static int mapSizeXshorter = 1280;
     private static int mapSizeYhigher = 736;
     private static int mapSizeYlower = 736;
-    boolean collidable = false;
 
 	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
 		this.game = game;
@@ -151,6 +151,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
         powerUpBody = BodyMaker.createBox(world, pUpPosX, pUpPosY, pUpWidth, pUpHeight, true, true);
         
+        createTables();
+        
         playerBody.setUserData("playerBody");
         doorBody.setUserData("doorBody");
         powerUpBody.setUserData("powerUpBody");        
@@ -210,7 +212,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
 
-        checkCollision();
+        //checkCollision();
 		stateTime += Gdx.graphics.getDeltaTime();
         sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
         if(powerUpBody != null) {
@@ -230,20 +232,24 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
 
 	}
-
-	public void checkCollision(){
-        int x = (int) (playerBody.getPosition().x / (int) collisionLayer.getTileWidth());
-        int y = (int) (playerBody.getPosition().y / (int) collisionLayer.getTileHeight());
-        TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y );
-
-        if (cell != null) {
-            if(cell.getTile().getProperties().containsKey("blocked")){
-                collidable = true;
-            }
-        }else{
-            collidable = false;
+	
+	public void createTables() {
+		System.out.println("called");
+		int x = (int) mapPixelWidth / (int) collisionLayer.getTileWidth();
+        int y = (int) mapPixelHeight / (int) collisionLayer.getTileHeight();
+        for(int i = 0; i < x; i++) {
+        	for(int j = 0;j < y; j++) {
+        		TiledMapTileLayer.Cell cell = collisionLayer.getCell(i, j);
+                if (cell != null) {
+                    if(cell.getTile().getProperties().containsKey("blocked")){
+                        tableBody = BodyMaker.createBox(world, i*collisionLayer.getTileWidth(), j*collisionLayer.getTileHeight(), collisionLayer.getTileWidth() - 10, collisionLayer.getTileWidth() - 10, true, true);
+                        System.out.println("Made a table");
+                    }
+                }
+        	}
         }
-    }
+        
+	}
 
 	@Override
 	public void show() {
@@ -257,7 +263,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
     @Override
     public boolean keyDown(int keycode) {
-        if(!collidable) {
           if (keycode == Input.Keys.UP) {
             playerBody.applyForceToCenter(0f,playerAnim.getSpeed(),true);
           }
@@ -270,21 +275,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
           if (keycode == Input.Keys.RIGHT) {
             playerBody.applyForceToCenter(playerAnim.getSpeed(),0f,true);
           }
-        }
-         else if(collidable) {
-            if (keycode == Input.Keys.UP) {
-                playerBody.applyForceToCenter(0f, 500f, true);
-            }
-            if (keycode == Input.Keys.DOWN) {
-                playerBody.applyForceToCenter(0f, -500f, true);
-            }
-            if (keycode == Input.Keys.LEFT) {
-                playerBody.applyForceToCenter(-500f, 0, true);
-            }
-            if (keycode == Input.Keys.RIGHT) {
-                playerBody.applyForceToCenter(500f, 0f, true);
-            }
-         }
         return true;
 	}
 
