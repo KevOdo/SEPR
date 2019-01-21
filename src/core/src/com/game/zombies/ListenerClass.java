@@ -32,6 +32,10 @@ public class ListenerClass implements ContactListener{
                 GameScreen.changeGame(0, nextMap, doorX, doorY);
             }
 		}
+		else if(contact.getFixtureA().getBody().getUserData() == "playerBody" && 
+		contact.getFixtureB().getBody().getUserData() == "powerUpBody") {
+			GameScreen.getPowerUp();
+		}
 		
 	}
 

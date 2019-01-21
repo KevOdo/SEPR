@@ -5,12 +5,12 @@ import javax.swing.text.Position;
 public abstract class Humanoid {
 
 protected String name;
-protected Integer currentHealth;
+protected Integer currentHealth = 0;
 protected Integer maxHealth;
-protected Integer damage;
+protected Integer currentDamage = 0;
 protected Position pos;
 protected Boolean alive;
-protected Integer speed;
+protected float currentSpeed = 5000f;
 
 /*
  * Implement later
@@ -38,7 +38,22 @@ public int getDistance() {
 }
 
 public int getDamage() {
-	return damage;
+	return currentDamage;
 }
 
+public void setHealth(int health) {
+	currentHealth += health;
+}
+
+public void setDamage(int damage) {
+	currentDamage += damage;
+}
+
+public void setSpeed(int speed) {
+	currentSpeed *= speed;
+}
+
+public float getSpeed() {
+	return currentSpeed;
+}
 }
