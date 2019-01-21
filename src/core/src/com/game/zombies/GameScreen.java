@@ -66,6 +66,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private static int mapSizeYlower = 736;
 
 	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
+		/*
+		 Initialises the GameScreen class
+		 */
 		this.game = game;
 		this.map = map;
 		Box2D.init();
@@ -85,12 +88,18 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     }
 	
 	public static void changeGame(int charNum, String map, float doorX, float doorY) {
+		/*
+		 Changes the Level by setting a new Screen and changing the map
+		 */
         ListenerClass lc = new ListenerClass();
         game.setScreen(new GameScreen(game, charNum, map, doorX, doorY));
         changeMap(map);
 	}
 
 	public static void changeScreen(){
+		/*
+		 * Changes the Screen to the winning Screen
+		 */
         game.setScreen(new FinalScreen(game));
     }
     
@@ -116,6 +125,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
 	@Override
 	public void create () {
+		/*
+		 The main method that generates the bodies in the world
+		 */
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false,w,h);
@@ -130,12 +142,14 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         collisionLayer = (TiledMapTileLayer)tiledMap.getLayers().get("overlay");
         
         if(map.equals("data/map_accom.tmx")) {
+        	//the accomodation map has a different edge layout so edge coordiinates have to be more hardcoded
         	topY = (int) (440 - playerHeight);
         	botY = (int) (190 - playerHeight);
         	leftX = (int) (320 - playerWidth);
         	rightX = (int) (1280 - playerWidth);
         }
         else {
+        	//sets edge coordinates based on map size
             topY = (int) (mapSizeYhigher - mapSizeYlower/2 - playerHeight); 
             rightX = (int) (mapSizeXlonger - (mapSizeXshorter/2) - playerWidth);
             leftX = (int) (mapSizeXshorter - 640 - playerWidth);
@@ -144,13 +158,15 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         
         mapPixelHeight = topY - botY;
         mapPixelWidth = rightX - leftX;
-        Edge = BodyMaker.createBox(world, leftX, botY, 0, mapPixelHeight, true, true);
-        Edge = BodyMaker.createBox(world, leftX, topY, mapPixelWidth, 0, true, true);
-        Edge = BodyMaker.createBox(world, leftX, botY, mapPixelWidth, 0, true, true);
-        Edge = BodyMaker.createBox(world, rightX, botY, 0, mapPixelHeight, true, true);
+        //creates edges in the map so the player doesn't go out of bounds
+        Edge = BodyMaker.createBox(world, leftX, botY, 0, mapPixelHeight, true, true);//Left Edge
+        Edge = BodyMaker.createBox(world, leftX, topY, mapPixelWidth, 0, true, true);//Top Edge 
+        Edge = BodyMaker.createBox(world, leftX, botY, mapPixelWidth, 0, true, true);//Bottom Edge
+        Edge = BodyMaker.createBox(world, rightX, botY, 0, mapPixelHeight, true, true);//Right Edge
         
         boolean done = false;
-        	while(!done){
+        while(!done){
+        	//Creates a powerup in a random location, making sure it isn't on a table or collideable object
         	Random random = new Random();
             pUpPosX = leftX + random.nextInt(rightX-leftX);
             pUpPosY = botY + random.nextInt(topY-botY);
@@ -162,12 +178,14 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     		}
         };
         
+        //Creates specific bodies in the world (player, door and powerup)
         playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);   
         doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
         powerUpBody = BodyMaker.createBox(world, pUpPosX, pUpPosY, pUpWidth, pUpHeight, true, true);
         
         createTables();
         
+        //setting the user data enables the contact listener class to call on it to check collisions.
         playerBody.setUserData("playerBody");
         doorBody.setUserData("doorBody");
         powerUpBody.setUserData("powerUpBody");        
@@ -182,6 +200,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	}
 	
 	public static void getPowerUp() {
+		/*
+		 When called on applies an effect on the player based on which powerup they pick up
+		 */
 		int power = powerUp.getPowerType();
 		switch(power) {
 		case 0:
@@ -201,6 +222,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	}
 	
 	public static void destroyBodies() {
+		/*
+		 Used to remove the powerup body when collected. Has to be called after the world step to avoid runtime errors
+		 */
 		if(powerUp.getFlag()) {
 			world.destroyBody(powerUpBody);
 			powerUpBody.setUserData(null);
@@ -211,6 +235,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
 	@Override
 	public void render (float delta) {
+		/*
+		 This method is used to actually display sprites, animations and the map on the current GameScreen
+		 */
 		if(!complete){
 			create();
 			complete = true;
@@ -227,6 +254,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
 
+		//The game creates the playerBody first, then the player animation is drawn on top of that. The same goes for the power up
 		stateTime += Gdx.graphics.getDeltaTime();
         sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
         if(powerUpBody != null) {
@@ -235,11 +263,13 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         
 		sb.end();
 
+		//setting the camera to follow the player and to be zoomed in
         camera.zoom = 0.5f;
 		camera.position.set(playerBody.getPosition().x, playerBody.getPosition().y, 0);
 
 		camera.update();
 
+		//The camera clamp ensures that when the camera is zoomed in it will still follow the player around, without going past the edge boundaries
 		camera.position.x = MathUtils.clamp(camera.position.x,mapSizeXshorter  / 2, mapSizeXlonger - 1280 /2);
 		camera.position.y = MathUtils.clamp(camera.position.y, mapSizeYlower /2,  mapSizeYhigher - 720 /2);
 
@@ -247,6 +277,10 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 	}
 	
 	public void createTables() {
+		/*
+		 This method checks through the tiled Map for the locations of table tiles, then creates bodies in those locations
+		 so that the player can't walk through/over them
+		 */
 		int x = (int) mapPixelWidth / (int) collisionLayer.getTileWidth();
         int y = (int) mapPixelHeight / (int) collisionLayer.getTileHeight();
         for(int i = 0; i < x; i++) {
@@ -274,6 +308,9 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
     @Override
     public boolean keyDown(int keycode) {
+    	/*
+    	 Movement is achieved using physics forces, applied to the center of the body to avoid rotation.
+    	 */
           if (keycode == Input.Keys.UP) {
             playerBody.applyForceToCenter(0f,playerAnim.getSpeed(),true);
           }
@@ -291,6 +328,10 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
     @Override
     public boolean keyUp(int keycode) {
+    	/*
+    	 This method stops the player's movement when a key stops being pressed. It obtains the current forces acting in
+    	 a certain direction on the body, and applies an impulse equal to the opposite of the current velocity in the axis
+    	 */
 	    if (keycode == Input.Keys.UP) {
 	        playerBody.applyLinearImpulse(new Vector2(0f, -playerBody.getLinearVelocity().y), playerBody.getPosition(), true);
 	    }

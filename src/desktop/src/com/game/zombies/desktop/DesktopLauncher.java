@@ -8,6 +8,9 @@ import com.game.zombies.ZombieGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		/*
+		 Main class for the project.
+		 */
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "The Depressed Discipline - Zombie Game";
 		config.width = 1280;

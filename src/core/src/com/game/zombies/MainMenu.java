@@ -47,7 +47,7 @@ public class MainMenu implements Screen { //The Main Menu Screen
 		game.batch.setProjectionMatrix(camera.combined);
 		stage.act(delta);
 		stage.draw();
-
+											//Draws the title of the game
 		game.batch.begin();
 		setFont("data/ZombFont.ttf", 180);
 		customFont.setColor(0f, 0f, 0f, 1f);
@@ -59,6 +59,9 @@ public class MainMenu implements Screen { //The Main Menu Screen
 
 	@Override
 	public void show() {
+		/*
+		 Method to create the various menu buttons in the world and determine what action to take  based on the button clicked.
+		 */
 		stage = new Stage();
 		TextureAtlas atlas = new TextureAtlas("data/ui/button.pack");
 		Skin skin = new Skin(atlas);
@@ -117,6 +120,7 @@ public class MainMenu implements Screen { //The Main Menu Screen
 		TextButton buttonCollision = new TextButton("COLLISION TEST",txtButtonStyle);
 		buttonCollision.pad(20);
 
+		//sets up the table for the buttons and adds it to the stage
 		table.add(buttonNewGame);
 		table2.add(buttonLoadGame);
 		table3.add(buttonExit);
