@@ -18,6 +18,7 @@ public class ListenerClass implements ContactListener{
 		if(contact.getFixtureA().getBody().getUserData() == "playerBody" &&
 		contact.getFixtureB().getBody().getUserData()=="doorBody"){
 			String map = GameScreen.getMap();
+			int player = GameScreen.getPlayer();
 			if(map.equals("data/map_compsci.tmx")) {
 				nextMap = "data/map_derwent.tmx";
                 xlong = 1280;
@@ -28,7 +29,7 @@ public class ListenerClass implements ContactListener{
 			    GameScreen.changeScreen();
             }else {
                 GameScreen.changeCamera(xlong, 640, 912, 368, 64f, 625f);
-                GameScreen.changeGame(0, nextMap, doorX, doorY);
+                GameScreen.changeGame(player, nextMap, doorX, doorY);
             }
 		}
 		else if(contact.getFixtureA().getBody().getUserData() == "playerBody" && 

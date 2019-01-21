@@ -44,6 +44,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private float pUpPosX;
     private float pUpPosY;
     private TiledMapTileLayer collisionLayer;
+    private static int player;
 
 	final float PIXELS_TO_METERS = 100f;
     private Vector2 gravity = new Vector2(0,0);
@@ -69,9 +70,14 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		this.map = map;
 		Box2D.init();
         playerAnim = new Player(charNum);
+        this.player = charNum;
         powerUp = new Powerup();
         this.doorX = doorX;
         this.doorY = doorY;
+	}
+	
+	public static int getPlayer() {
+		return player;
 	}
 
 	public static String getMap(){
