@@ -29,6 +29,9 @@ public class CharacterSelectScreen implements Screen{
     private Integer currentChar = 0;
 
     public CharacterSelectScreen(final ZombieGame game){
+    	/*
+    	 Sets the description for the various characters as well as the locations of the asset files
+    	 */
         this.game = game;
         characterText[0] = new Texture((Gdx.files.internal("core/assets/strong_character/Strong_Character0.png")));
         characterString[0] = "The PE Student. \n \n Perk: + Strength \n \n Ready to punch some zombies!!";
@@ -46,6 +49,9 @@ public class CharacterSelectScreen implements Screen{
 
     @Override
     public void show() {
+    	/*
+    	 Generates the buttons which the user will use to navigate this menu and choose a character.
+    	 */
         stage = new Stage();
         TextureAtlas atlas = new TextureAtlas("data/ui/button.pack");
         Skin skin = new Skin(atlas);
@@ -113,6 +119,7 @@ public class CharacterSelectScreen implements Screen{
         Table table4 = new Table(skin);
         table4.setBounds(screenWidth - (screenWidth/10),screenHeight - (screenHeight/ 8),20f,20f);
 
+        //sets the table and the adds it to the stage
         table1.add(buttonDone);
         table2.add(buttonCharacterRight);
         table3.add(buttonCharacterLeft);
@@ -126,6 +133,9 @@ public class CharacterSelectScreen implements Screen{
 
     @Override
     public void render(float delta) {
+    	/*
+    	 Generates the sprites and text
+    	 */
         Gdx.gl.glClearColor(0.4f, 0.8f, 0.6f, 0.2f);	//Sets colour
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

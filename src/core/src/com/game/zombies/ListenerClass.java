@@ -17,6 +17,9 @@ public class ListenerClass implements ContactListener{
 	public void beginContact(Contact contact) {
 		if(contact.getFixtureA().getBody().getUserData() == "playerBody" &&
 		contact.getFixtureB().getBody().getUserData()=="doorBody"){
+			/*
+			 Changes the map based on what map is currently being shown.
+			 */
 			String map = GameScreen.getMap();
 			int player = GameScreen.getPlayer();
 			if(map.equals("data/map_compsci.tmx")) {
@@ -34,6 +37,7 @@ public class ListenerClass implements ContactListener{
 		}
 		else if(contact.getFixtureA().getBody().getUserData() == "playerBody" && 
 		contact.getFixtureB().getBody().getUserData() == "powerUpBody") {
+			//starts the powerup pickup interaction
 			GameScreen.getPowerUp();
 		}
 		
