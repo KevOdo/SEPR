@@ -5,15 +5,23 @@ import java.util.Random;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.Map;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+
+import java.util.concurrent.TimeUnit;
 
 public class GameScreen extends ApplicationAdapter  implements Screen, InputProcessor {
 
@@ -61,6 +69,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private static int mapSizeXshorter = 1280;
     private static int mapSizeYhigher = 736;
     private static int mapSizeYlower = 736;
+    private TiledMapTileLayer collisionLayer;
+    boolean collidable = false;
 
 	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
 		this.game = game;
@@ -115,12 +125,13 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		
 		tiledMap = new TmxMapLoader().load(map);
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		
+
 		sb = new SpriteBatch();
 
         world = new World(gravity,doSleep);
+        collisionLayer = (TiledMapTileLayer)tiledMap.getLayers().get("overlay");
         
-        if(map.equals("data/map_accom.tmx")) {
+    if(map.equals("data/map_accom.tmx")) {
         	topY = (int) (440 - playerHeight);
         	botY = (int) (190 - playerHeight);
         	leftX = (int) (320 - playerWidth);
@@ -206,6 +217,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		sb.setProjectionMatrix(camera.combined);
 		sb.begin();
 
+        checkCollision();
 		stateTime += Gdx.graphics.getDeltaTime();
         sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
         if(powerUpBody != null) {
@@ -223,7 +235,24 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 		camera.position.x = MathUtils.clamp(camera.position.x,mapSizeXshorter  / 2, mapSizeXlonger - 1280 /2);
 		camera.position.y = MathUtils.clamp(camera.position.y, mapSizeYlower /2,  mapSizeYhigher - 720 /2);
 
+
 	}
+
+	public void checkCollision(){
+        int x = (int) (playerBody.getPosition().x / (int) collisionLayer.getTileWidth());
+        int y = (int) (playerBody.getPosition().y / (int) collisionLayer.getTileHeight());
+        TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y );
+
+        if (cell != null) {
+            if(cell.getTile().getProperties().containsKey("blocked")){
+                collidable = true;
+            }
+        }else{
+            collidable = false;
+        }
+
+
+    }
 
 	@Override
 	public void show() {
@@ -237,39 +266,53 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.UP) {
+        if(collidable == false) {
+          if (keycode == Input.Keys.UP) {
             playerBody.applyForceToCenter(0f,playerAnim.getSpeed(),true);
-        }
-        if (keycode == Input.Keys.DOWN) {
+          }
+          if (keycode == Input.Keys.DOWN) {
             playerBody.applyForceToCenter(0f,-playerAnim.getSpeed(),true);
-        }
-        if (keycode == Input.Keys.LEFT) {
+          }
+          if (keycode == Input.Keys.LEFT) {
             playerBody.applyForceToCenter(-playerAnim.getSpeed(),0,true);
-        }
-        if (keycode == Input.Keys.RIGHT) {
+          }
+          if (keycode == Input.Keys.RIGHT) {
             playerBody.applyForceToCenter(playerAnim.getSpeed(),0f,true);
-        }
-        if(keycode == Input.Keys.SPACE) {
-        	System.out.println("Player x= " + playerBody.getPosition().x);
-        	System.out.println("Player y= " + playerBody.getPosition().y);
-        }
+          }
+          if(keycode == Input.Keys.SPACE) {
+        	  System.out.println("Player x= " + playerBody.getPosition().x);
+        	  System.out.println("Player y= " + playerBody.getPosition().y);
+          }
+          else if(collidable == true) {
+            if (keycode == Input.Keys.UP) {
+                playerBody.applyForceToCenter(0f, 500f, true);
+            }
+            if (keycode == Input.Keys.DOWN) {
+                playerBody.applyForceToCenter(0f, -500f, true);
+            }
+            if (keycode == Input.Keys.LEFT) {
+                playerBody.applyForceToCenter(-500f, 0, true);
+            }
+            if (keycode == Input.Keys.RIGHT) {
+                playerBody.applyForceToCenter(500f, 0f, true);
+            }
         return true;
 	}
 
     @Override
     public boolean keyUp(int keycode) {
-        if (keycode == Input.Keys.UP){
-            playerBody.applyLinearImpulse(new Vector2(0f,-playerBody.getLinearVelocity().y),playerBody.getPosition(),true);
-        }
-        if (keycode == Input.Keys.DOWN){
-            playerBody.applyLinearImpulse(new Vector2(0f, -playerBody.getLinearVelocity().y),playerBody.getPosition(),true);
-        }
-        if (keycode == Input.Keys.LEFT){
-            playerBody.applyLinearImpulse(new Vector2(-playerBody.getLinearVelocity().x, 0f),playerBody.getPosition(),true);
-        }
-        if (keycode == Input.Keys.RIGHT){
-            playerBody.applyLinearImpulse(new Vector2(-playerBody.getLinearVelocity().x, 0f),playerBody.getPosition(),true);
-        }
+	    if (keycode == Input.Keys.UP) {
+	        playerBody.applyLinearImpulse(new Vector2(0f, -playerBody.getLinearVelocity().y), playerBody.getPosition(), true);
+	    }
+	    if (keycode == Input.Keys.DOWN) {
+	        playerBody.applyLinearImpulse(new Vector2(0f, -playerBody.getLinearVelocity().y), playerBody.getPosition(), true);
+	    }
+	    if (keycode == Input.Keys.LEFT) {
+	        playerBody.applyLinearImpulse(new Vector2(-playerBody.getLinearVelocity().x, 0f), playerBody.getPosition(), true);
+	    }
+	    if (keycode == Input.Keys.RIGHT) {
+            playerBody.applyLinearImpulse(new Vector2(-playerBody.getLinearVelocity().x, 0f), playerBody.getPosition(), true);
+	    }
         return true;
     }
 
