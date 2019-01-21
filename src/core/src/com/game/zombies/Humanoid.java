@@ -43,10 +43,12 @@ public int getDamage() {
 
 public void setHealth(int health) {
 	currentHealth += health;
+	System.out.println("Current health: " + currentHealth);
 }
 
 public void setDamage(int damage) {
 	currentDamage += damage;
+	System.out.println("Current damage: " + currentDamage);
 }
 
 public void setSpeed(int speed) {

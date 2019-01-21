@@ -149,9 +149,18 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         Edge = BodyMaker.createBox(world, leftX, botY, mapPixelWidth, 0, true, true);
         Edge = BodyMaker.createBox(world, rightX, botY, 0, mapPixelHeight, true, true);
         
-        Random random = new Random();
-        pUpPosX = leftX + random.nextInt(rightX-leftX);
-        pUpPosY = botY + random.nextInt(topY-botY);
+        boolean done = false;
+        	while(!done){
+        	Random random = new Random();
+            pUpPosX = leftX + random.nextInt(rightX-leftX);
+            pUpPosY = botY + random.nextInt(topY-botY);
+            int x = (int) pUpPosX/ (int) collisionLayer.getTileWidth();
+            int y = (int) pUpPosY / (int) collisionLayer.getTileHeight();
+    		TiledMapTileLayer.Cell cell = collisionLayer.getCell(x, y);
+    		if(cell == null) {
+    			done = true;
+    		}
+        };
         
         playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);   
         doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
@@ -222,7 +231,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         sb.draw(playerAnim.getWalkAnimation().getKeyFrame(stateTime, true), playerBody.getPosition().x, playerBody.getPosition().y);
         if(powerUpBody != null) {
             sb.draw(powerUp.getPowerAni().getKeyFrame(stateTime, true), powerUpBody.getPosition().x, powerUpBody.getPosition().y);
-
         }
         
 		sb.end();
