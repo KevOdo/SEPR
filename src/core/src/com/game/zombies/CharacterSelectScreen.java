@@ -15,15 +15,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.graphics.Texture;
-import java.awt.Toolkit;
-import java.awt.Dimension;
 
 public class CharacterSelectScreen implements Screen{
 
     private Stage stage;
     final ZombieGame game;
     private BitmapFont customFont;
-    private Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private int screenHeight = Gdx.graphics.getHeight();
     private int screenWidth = Gdx.graphics.getWidth();
     private  Texture[] characterText= new Texture[2];

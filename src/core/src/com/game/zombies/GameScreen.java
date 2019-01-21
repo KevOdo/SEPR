@@ -5,13 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.Map;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.objects.TextureMapObject;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -20,8 +14,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-
-import java.util.concurrent.TimeUnit;
 
 public class GameScreen extends ApplicationAdapter  implements Screen, InputProcessor {
 
@@ -50,6 +42,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private static float doorY;
     private float pUpPosX;
     private float pUpPosY;
+    private TiledMapTileLayer collisionLayer;
 
 	final float PIXELS_TO_METERS = 100f;
     private Vector2 gravity = new Vector2(0,0);
@@ -69,7 +62,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
     private static int mapSizeXshorter = 1280;
     private static int mapSizeYhigher = 736;
     private static int mapSizeYlower = 736;
-    private TiledMapTileLayer collisionLayer;
     boolean collidable = false;
 
 	public GameScreen(ZombieGame game, int charNum, String map, float doorX, float doorY) {
@@ -131,7 +123,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         world = new World(gravity,doSleep);
         collisionLayer = (TiledMapTileLayer)tiledMap.getLayers().get("overlay");
         
-    if(map.equals("data/map_accom.tmx")) {
+        if(map.equals("data/map_accom.tmx")) {
         	topY = (int) (440 - playerHeight);
         	botY = (int) (190 - playerHeight);
         	leftX = (int) (320 - playerWidth);
@@ -143,6 +135,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
             leftX = (int) (mapSizeXshorter - 640 - playerWidth);
             botY = (int) (mapSizeYlower - 360 - playerHeight);
         }
+        
         mapPixelHeight = topY - botY;
         mapPixelWidth = rightX - leftX;
         Edge = BodyMaker.createBox(world, leftX, botY, 0, mapPixelHeight, true, true);
@@ -151,8 +144,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         Edge = BodyMaker.createBox(world, rightX, botY, 0, mapPixelHeight, true, true);
         
         Random random = new Random();
-        pUpPosX = leftX + random.nextInt(rightX);
-        pUpPosY = botY + random.nextInt(topY-20);
+        pUpPosX = leftX + random.nextInt(rightX-leftX);
+        pUpPosY = botY + random.nextInt(topY-botY);
         
         playerBody = BodyMaker.createBox(world, playerPosX, playerPosY, playerWidth, playerHeight, false, true);   
         doorBody = BodyMaker.createBox(world,doorX,doorY,doorWidth,doorHeight,true,true);
@@ -250,8 +243,6 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
         }else{
             collidable = false;
         }
-
-
     }
 
 	@Override
@@ -266,7 +257,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
 
     @Override
     public boolean keyDown(int keycode) {
-        if(collidable == false) {
+        if(!collidable) {
           if (keycode == Input.Keys.UP) {
             playerBody.applyForceToCenter(0f,playerAnim.getSpeed(),true);
           }
@@ -279,11 +270,8 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
           if (keycode == Input.Keys.RIGHT) {
             playerBody.applyForceToCenter(playerAnim.getSpeed(),0f,true);
           }
-          if(keycode == Input.Keys.SPACE) {
-        	  System.out.println("Player x= " + playerBody.getPosition().x);
-        	  System.out.println("Player y= " + playerBody.getPosition().y);
-          }
-          else if(collidable == true) {
+        }
+         else if(collidable) {
             if (keycode == Input.Keys.UP) {
                 playerBody.applyForceToCenter(0f, 500f, true);
             }
@@ -296,6 +284,7 @@ public class GameScreen extends ApplicationAdapter  implements Screen, InputProc
             if (keycode == Input.Keys.RIGHT) {
                 playerBody.applyForceToCenter(500f, 0f, true);
             }
+         }
         return true;
 	}
 

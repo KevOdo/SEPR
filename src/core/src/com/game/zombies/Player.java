@@ -1,7 +1,6 @@
 package com.game.zombies;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Player extends Humanoid  {
 	protected Sprite figure;
 	private TextureRegion[] playerWalk;
-	private Integer[] ability = new Integer[5];
 	private Animation<TextureRegion> walkAnimation;
 	private static final int frameCols = 1;
 	private int frameRows = 2;
@@ -57,32 +55,8 @@ public class Player extends Humanoid  {
 		return walkAnimation;
 	}
 	/*
-	 * Key based movement
-	 * Speed dependent 
-	 */
-	private void move() {
-		
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-			figure.translateY(currentSpeed);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-			figure.translateY(currentSpeed);
-		}
-
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-			figure.translateX(currentSpeed);
-		}
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-			figure.translateX(currentSpeed);
-		}
-	}
-	
-	/*
 	 * Ability type found by attribute ability
 	 * Player attributes changed dependent on this
 	 */
-	private void useAbility() {
-		
-	}
 
 }
