@@ -37,8 +37,8 @@ public class MapBodyBuilder {
 	 */
 	private static float PPT = 32;
 
-	public static Array<Body> buildBodies(TiledMap map, World world) {
-		MapObjects objs = map.getLayers().get("Walls").getObjects();
+	public static Array<Body> buildBodies(TiledMap map, World world, String layer) {
+		MapObjects objs = map.getLayers().get(layer).getObjects();
 
 		Array<Body> bodies = new Array<>();
 

@@ -121,7 +121,7 @@ public class GameManager implements Disposable {
 		debugRenderer = new Box2DDebugRenderer();
 
 		rayHandler = new RayHandler(world);
-		rayHandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.1f);
+		rayHandler.setAmbientLight(0.2f, 0.2f, 0.2f, 0.3f);
 		
 		hud = new Hud(game);
 		

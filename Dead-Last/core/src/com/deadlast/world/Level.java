@@ -104,7 +104,8 @@ public class Level implements Disposable {
 		endZone = new LevelEndZone(game, endZoneX / 32, endZoneY / 32, endZoneHeight / 32, endZoneWidth / 32);
 		endZone.defineBody();
 		
-		MapBodyBuilder.buildBodies(tiledMap, gameManager.getWorld());
+		MapBodyBuilder.buildBodies(tiledMap, gameManager.getWorld(), "Walls");
+        MapBodyBuilder.buildBodies(tiledMap, gameManager.getWorld(), "Furniture");
 	}
 	
 	public TiledMap load() {
