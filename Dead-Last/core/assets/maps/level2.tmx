@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="21">
+<map version="1.2" tiledversion="2019.01.30" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="43">
  <tileset firstgid="1" source="finaltileset.tsx"/>
  <layer id="1" name="Background" width="100" height="100">
   <data encoding="csv">
@@ -351,5 +351,27 @@
   <object id="13" name="Wall10" x="1504" y="2976" width="32" height="64"/>
   <object id="16" name="Wall11" x="1088" y="2944" width="448" height="32"/>
   <object id="15" name="Wall12" x="2240" y="2592" width="96" height="64"/>
+ </objectgroup>
+ <objectgroup id="7" name="Furniture">
+  <object id="21" name="Desk 1" x="775.333" y="1936" width="48.6667" height="66.6667"/>
+  <object id="22" name="Desk 2" x="775" y="2126.67" width="48.6667" height="66.6667"/>
+  <object id="24" name="Desk 3" x="775" y="2320.67" width="48.6667" height="66.6667"/>
+  <object id="25" name="Desk 4" x="775" y="2511.33" width="48.6667" height="66.6667"/>
+  <object id="26" name="Desk 5" x="775" y="2704" width="48.6667" height="66.6667"/>
+  <object id="27" name="Chair 5" x="741.5" y="2720" width="20.5" height="31.5"/>
+  <object id="28" name="Chair 4" x="741.25" y="2527.75" width="20.5" height="31.5"/>
+  <object id="29" name="Chair 3" x="740.75" y="2335.75" width="20.5" height="31.5"/>
+  <object id="30" name="Chair 2" x="741.75" y="2144.25" width="20.5" height="31.5"/>
+  <object id="31" name="Chair 1" x="741.75" y="1952.25" width="20.5" height="31.5"/>
+  <object id="32" name="Table 1" x="2432" y="1856" width="416" height="63"/>
+  <object id="33" name="Table 2" x="2433" y="1953.5" width="416" height="63"/>
+  <object id="35" name="Table 3" x="2433" y="2046.5" width="416" height="63"/>
+  <object id="36" name="Table 4" x="2433" y="2144.5" width="416" height="63"/>
+  <object id="37" name="Table 5" x="2433" y="2240.5" width="416" height="63"/>
+  <object id="38" name="Table 6" x="2433" y="2336.5" width="416" height="63"/>
+  <object id="39" name="Table 8" x="2558.67" y="2506.67" width="53.3333" height="261.333"/>
+  <object id="40" name="Table 7" x="2464" y="2506.67" width="53.3333" height="261.333"/>
+  <object id="41" name="Table 9" x="2656.67" y="2507.33" width="53.3333" height="261.333"/>
+  <object id="42" name="Table 10" x="2752.67" y="2506" width="53.3333" height="261.333"/>
  </objectgroup>
 </map>
