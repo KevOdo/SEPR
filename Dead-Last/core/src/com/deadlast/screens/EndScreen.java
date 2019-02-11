@@ -23,12 +23,15 @@ public class EndScreen extends DefaultScreen {
 		super(game);
 		stage = new Stage(new ScreenViewport());
 		won = GameManager.getInstance(game).getWinLevel() == 1 ? true : false;
+
 	}
 
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
-		
+
+		GameManager.getInstance(game).clearLevel();
+
 		Table table = new Table();
 		table.setFillParent(true);
 		table.center();
@@ -36,7 +39,7 @@ public class EndScreen extends DefaultScreen {
 		
 		table.setDebug(true);
 		Skin skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-		
+
 		String titleText;
 		if (won) {
 			titleText = "You won!";
