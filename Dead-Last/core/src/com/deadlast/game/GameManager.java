@@ -156,7 +156,7 @@ public class GameManager implements Disposable {
 	
 	public void clearLevel() {
 		levelLoaded = false;
-		world.dispose();
+		controller.down = controller.left = controller.right = controller.up = false;
 		hud.dispose();
 		debugRenderer.dispose();
 		rayHandler.dispose();
