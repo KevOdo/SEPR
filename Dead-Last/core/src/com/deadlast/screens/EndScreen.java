@@ -30,8 +30,6 @@ public class EndScreen extends DefaultScreen {
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
 
-		GameManager.getInstance(game).clearLevel();
-
 		Table table = new Table();
 		table.setFillParent(true);
 		table.center();
@@ -57,19 +55,25 @@ public class EndScreen extends DefaultScreen {
 		}
 		Label blurb = new Label(blurbText, skin);
 		table.add(blurb).align(Align.center).row();
-		table.add(new Label("Your end score: " + GameManager.getInstance(game).getTotalScore(), skin)).align(Align.center).row();
+
+
+		table.add(new Label("Your end score: " + GameManager.getInstance(game).getScore(),skin)).align(Align.center).row();
+
 		
 		TextButton returnButton = new TextButton("Menu", skin);
 		returnButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
+				table.reset();
 				game.changeScreen(DeadLast.MENU);
 			}
 		});
 		
 		table.add(returnButton);
-		
+
 		stage.addActor(table);
+
+		GameManager.getInstance(game).clearLevel();
 	}
 
 	@Override

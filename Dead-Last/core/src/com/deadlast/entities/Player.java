@@ -254,7 +254,7 @@ public class Player extends Mob {
 				game, sprite, bRadius, initialPos, healthStat, speedStat, strengthStat, stealthStat
 			);
 		}
-		
+
 	}
 
 }
