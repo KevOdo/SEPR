@@ -157,6 +157,7 @@ public class GameManager implements Disposable {
 	public void clearLevel() {
 		levelLoaded = false;
 		controller.down = controller.left = controller.right = controller.up = false;
+		levelNum = 0;
 		hud.dispose();
 		debugRenderer.dispose();
 		rayHandler.dispose();
@@ -209,7 +210,6 @@ public class GameManager implements Disposable {
 	
 	/**
 	 * Adds an enemy to the list of enemies and entities.
-	 * @param enemy	the enemy to add
 	 */
 	public void addEnemy(Enemy.Type type, Vector2 initialPos) {
 		Enemy enemy = enemyFactory.get(type).setInitialPosition(initialPos).build();
@@ -228,8 +228,7 @@ public class GameManager implements Disposable {
 	}
 	
 	/**
-	 * Adds a power-up to the list of power-up's and entities
-	 * @param powerUp the power-up to add
+	 * Adds a power-up to the list of power-up's and entitie
 	 */
 	public void addPowerUp(PowerUp.Type type, Vector2 initialPos) {
 		PowerUp powerUp = powerUpFactory.get(type).setInitialPosition(initialPos).build();
@@ -355,7 +354,7 @@ public class GameManager implements Disposable {
 	}
 	
 	/**
-	 * Processes user input from a {@link InputController} (in this case, {@link KeyboardController}).
+	 * Processes user input from an InputController in this case, {@link KeyboardController}).
 	 */
 	public void handleInput() {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
@@ -443,8 +442,6 @@ public class GameManager implements Disposable {
 	@Override
 	public void dispose() {
 		world.dispose();
-		debugRenderer.dispose();
-		rayHandler.dispose();
 	}
 
 }

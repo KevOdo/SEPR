@@ -107,7 +107,6 @@ public class Hud implements Disposable {
 	@Override
 	public void dispose() {
 		stage.dispose();
-		batch.dispose();
 	}
 
 	
