@@ -24,7 +24,8 @@ public class PowerUp extends Entity {
 		DOUBLE_DAMAGE,
 		DOUBLE_POINTS,
 		REGEN,
-		SPEED
+		SPEED,
+		COIN
 	}
 	
 	public Type getType() {

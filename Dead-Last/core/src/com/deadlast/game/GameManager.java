@@ -70,7 +70,7 @@ public class GameManager implements Disposable {
 	
 	private int totalScore;
 	
-	private String[] levels = {"level1", "level2", "level3"};
+	private String[] levels = {"level1","level2","level3","minigame"};
 	private Level level;
 	private int levelNum = 0;
 	
@@ -266,6 +266,8 @@ public class GameManager implements Disposable {
 	public int getWinLevel() {
 		return winLevel;
 	}
+
+	public String getLevelName() {return levels[levelNum];}
 	
 	/**
 	 * Gets the mouse position in screen coordinates (origin top-left).
@@ -291,6 +293,7 @@ public class GameManager implements Disposable {
 		}
 		return 1;
 	}
+
 	
 	public float getSpeedMultiplier() {
 		if (player != null && player.isPowerUpActive(PowerUp.Type.SPEED)) {
@@ -298,7 +301,15 @@ public class GameManager implements Disposable {
 		}
 		return 1f;
 	}
-	
+
+	public void minigameTimeLimit(){
+		if(levelNum < levels.length) {
+			if ((levels[levelNum].equals("minigame") && time > 45)) {
+				levelComplete();
+			}
+		}
+	}
+
 	public void update(float delta) {
 		if(!gameRunning) return;
 		if(!levelLoaded) {
@@ -335,11 +346,12 @@ public class GameManager implements Disposable {
 		if (showDebugRenderer) {
 			debugRenderer.render(world, gameCamera.combined);
 		}
-		
+		minigameTimeLimit();
 		time += delta;
 		this.hud.setTime((int)Math.round(Math.floor(time)));
 		this.hud.setHealth(this.player.getHealth());
 		this.hud.setScore(this.score);
+		this.hud.setCoinsCollected(this.score / 10);
 	}
 	
 	/**
