@@ -57,7 +57,7 @@ public class EndScreen extends DefaultScreen {
 		table.add(blurb).align(Align.center).row();
 
 
-		table.add(new Label("Your end score: " + GameManager.getInstance(game).getScore(),skin)).align(Align.center).row();
+		table.add(new Label("Your end score: " + GameManager.getInstance(game).getTotalScore(),skin)).align(Align.center).row();
 
 		
 		TextButton returnButton = new TextButton("Menu", skin);
