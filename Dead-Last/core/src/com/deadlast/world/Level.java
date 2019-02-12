@@ -86,6 +86,8 @@ public class Level implements Disposable {
 				case "REGEN":
 					powerUpSpawns.add(new SpawnPoint<PowerUp.Type>(PowerUp.Type.REGEN, new Vector2(x,y)));
 					break;
+                case "COIN":
+                    powerUpSpawns.add(new SpawnPoint<PowerUp.Type>(PowerUp.Type.COIN, new Vector2(x,y)));
 				default:
 					break;
 				}

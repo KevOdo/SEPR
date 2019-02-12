@@ -26,7 +26,6 @@ import com.deadlast.entities.Player;
 import com.deadlast.entities.PlayerType;
 import com.deadlast.entities.PowerUp;
 import com.deadlast.entities.PowerUpFactory;
-import com.deadlast.screens.EndScreen;
 import com.deadlast.screens.GameScreen;
 import com.deadlast.stages.Hud;
 import com.deadlast.world.Level;
@@ -69,7 +68,9 @@ public class GameManager implements Disposable {
 	private Hud hud;
 	private RayHandler rayHandler;
 	
-	private String[] levels = {"level1", "level2", "level3"};
+	private int totalScore;
+	
+	private String[] levels = {"level1","level2","level3","minigame"};
 	private Level level;
 	private int levelNum = 0;
 	
@@ -127,7 +128,8 @@ public class GameManager implements Disposable {
 		this.entities = new ArrayList<>();
 		this.enemies = new ArrayList<>();
 		this.powerUps = new ArrayList<>();
-
+		
+		score = 0;
 		time = 0;
 		
 		level = new Level(game,levels[levelNum]);
@@ -155,12 +157,11 @@ public class GameManager implements Disposable {
 	public void clearLevel() {
 		levelLoaded = false;
 		controller.down = controller.left = controller.right = controller.up = false;
-		levelNum = 0;
 		hud.dispose();
 		debugRenderer.dispose();
 		rayHandler.dispose();
 		level.dispose();
-		score = 0;
+		totalScore += score;
 	}
 	
 	/**
@@ -257,14 +258,16 @@ public class GameManager implements Disposable {
 	public RayHandler getRayHandler() {
 		return rayHandler;
 	}
-
-	public int getScore() {
-		return score;
+	
+	public int getTotalScore() {
+		return totalScore;
 	}
 	
 	public int getWinLevel() {
 		return winLevel;
 	}
+
+	public String getLevelName() {return levels[levelNum];}
 	
 	/**
 	 * Gets the mouse position in screen coordinates (origin top-left).
@@ -290,6 +293,7 @@ public class GameManager implements Disposable {
 		}
 		return 1;
 	}
+
 	
 	public float getSpeedMultiplier() {
 		if (player != null && player.isPowerUpActive(PowerUp.Type.SPEED)) {
@@ -297,7 +301,15 @@ public class GameManager implements Disposable {
 		}
 		return 1f;
 	}
-	
+
+	public void minigameTimeLimit(){
+		if(levelNum < levels.length) {
+			if ((levels[levelNum].equals("minigame") && time > 45)) {
+				levelComplete();
+			}
+		}
+	}
+
 	public void update(float delta) {
 		if(!gameRunning) return;
 		if(!levelLoaded) {
@@ -334,11 +346,12 @@ public class GameManager implements Disposable {
 		if (showDebugRenderer) {
 			debugRenderer.render(world, gameCamera.combined);
 		}
-		
+		minigameTimeLimit();
 		time += delta;
 		this.hud.setTime((int)Math.round(Math.floor(time)));
 		this.hud.setHealth(this.player.getHealth());
 		this.hud.setScore(this.score);
+		this.hud.setCoinsCollected(this.score / 10);
 	}
 	
 	/**
@@ -395,6 +408,7 @@ public class GameManager implements Disposable {
 	
 	public void levelComplete() {
 		levelLoaded = false;
+		totalScore += score;
 		// clearLevel();
 		levelNum += 1;
 	}
@@ -429,8 +443,8 @@ public class GameManager implements Disposable {
 	@Override
 	public void dispose() {
 		world.dispose();
-//		debugRenderer.dispose();
-//		rayHandler.dispose();
+		debugRenderer.dispose();
+		rayHandler.dispose();
 	}
 
 }

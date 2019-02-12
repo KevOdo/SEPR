@@ -1,5 +1,6 @@
 package com.deadlast.stages;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.deadlast.game.DeadLast;
+import com.deadlast.game.GameManager;
 
 public class Hud implements Disposable {
 
@@ -22,8 +24,10 @@ public class Hud implements Disposable {
 	Label timeValLabel;
 	Label scoreValLabel;
 	Label levelLabel;
-	
+	Label coinValLabel;
+
 	Label healthValLabel;
+	boolean minigame;
 	
 	public Hud(DeadLast game) {
 		viewport = new ExtendViewport(DeadLast.V_WIDTH, DeadLast.V_HEIGHT);
@@ -44,16 +48,25 @@ public class Hud implements Disposable {
 		scoreValLabel = new Label(String.format("%06d", 0), skin);
 		Label worldLabel = new Label("DeadLast", skin);
 		levelLabel = new Label("Ron Cooke Hub", skin);
+		Label coinLabel;
 		
 		topView.add(timeLabel).expandX().padTop(10);
 		topView.add(worldLabel).expandX().padTop(10);
 		topView.add(scoreLabel).expandX().padTop(10);
-		
+
+		if(GameManager.getInstance(game).getLevelName() == "minigame"){
+			minigame = true;
+			coinLabel = new Label("Coins Collected: ", skin);
+			coinValLabel = new Label(String.format("%02d",0),skin);
+			topView.add(coinLabel).expandX().padTop(10);
+		}
 		topView.row();
 		topView.add(timeValLabel).expandX();
 		topView.add(levelLabel).expandX();
 		topView.add(scoreValLabel).expandX();
-		
+
+		if(minigame == true){ topView.add(coinValLabel).expandX(); }
+
 		stage.addActor(topView);
 		
 		bottomView = new Table();
@@ -83,6 +96,12 @@ public class Hud implements Disposable {
 	
 	public void setLevelName(String name) {
 		levelLabel.setText(name);
+	}
+
+	public void setCoinsCollected(int coinsCollected){
+		if(minigame == true) {
+			coinValLabel.setText(String.format("%02d", coinsCollected));
+		}
 	}
 	
 	@Override
