@@ -54,6 +54,15 @@ public class EnemyFactory {
 			break;
 		case NORMAL:
 			break;
+		case BOSS:
+			builder.setHealthStat(1)
+					.setSpeedStat(2)
+					.setStrengthStat(4)
+					.setDetectionStat(7)
+					.setSprite(null)
+					.setScoreValue(100)
+					.setBodyRadius(0.4f);
+			break;
 		default:
 			break;
 		

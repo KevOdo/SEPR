@@ -76,7 +76,7 @@ public class MenuScreen extends DefaultScreen {
 		miniButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				GameManager.setMinigame();
+				GameManager.getInstance(game).setMinigame();
 				if (GameManager.getInstance(game).isGameRunning()) {
 					game.changeScreen(DeadLast.GAME);
 				} else {

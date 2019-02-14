@@ -10,6 +10,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -29,6 +33,7 @@ import com.deadlast.entities.PowerUpFactory;
 import com.deadlast.screens.GameScreen;
 import com.deadlast.stages.Hud;
 import com.deadlast.world.Level;
+import com.deadlast.world.MapBodyBuilder;
 import com.deadlast.world.WorldContactListener;
 
 import box2dLight.RayHandler;
@@ -70,7 +75,7 @@ public class GameManager implements Disposable {
 	
 	private int totalScore;
 	
-	private String[] levels = {"level1","level2","level3","minigame"};
+	private String[] levels = {"bossLevel1","level1","level2","level3","minigame"};
 	private Level level;
 	private int levelNum = 0;
 	
@@ -79,8 +84,9 @@ public class GameManager implements Disposable {
 	
 	private int winLevel = 0;
 
-	private static boolean minigame = false;
-	private static boolean pause = false;
+	private boolean minigame = false;
+	private boolean pause = false;
+	private boolean bossEncounter = false;
 	
 	private GameManager(DeadLast game) {
 		this.game = game;
@@ -222,6 +228,20 @@ public class GameManager implements Disposable {
 		enemy.defineBody();
 		this.enemies.add(enemy);
 		this.entities.add(enemy);
+		if(type == Enemy.Type.BOSS){
+			bossEncounter = true;
+		}
+	}
+
+	public void checkBoss(){
+		if(!this.enemies.contains(Enemy.Type.BOSS)){
+			MapLayer fore2Layer = level.getTiledMap().getLayers().get("Foreground 2");
+			fore2Layer.setVisible(false);
+			MapLayer furnLayer = level.getTiledMap().getLayers().get("Furniture");
+			MapObjects obj = furnLayer.getObjects();
+			obj.get("Barrier");
+		}else{
+		}
 	}
 	
 	/**
@@ -355,14 +375,19 @@ public class GameManager implements Disposable {
 			debugRenderer.render(world, gameCamera.combined);
 		}
 		minigameTimeLimit();
-		time += delta;
+		if(bossEncounter){
+			checkBoss();
+		}
+		if(!pause) {
+			time += delta;
+		}
 		this.hud.setTime((int)Math.round(Math.floor(time)));
 		this.hud.setHealth(this.player.getHealth());
 		this.hud.setScore(this.score);
-		this.hud.setCoinsCollected(this.score / 10);
+		this.hud.setCoinsCollected(this.score / 10, game);
 	}
 
-	public static boolean isPaused(){
+	public boolean isPaused(){
 		return pause;
 	}
 
@@ -445,10 +470,9 @@ public class GameManager implements Disposable {
 		}
 	}
 
-	public static void setMinigame(){
-		minigame = true;
-	}
+	public void setMinigame(){ minigame = true; }
 
+	public boolean getMinigame(){ return minigame; }
 
 	/**
 	 * Renders entities held by this game manager.

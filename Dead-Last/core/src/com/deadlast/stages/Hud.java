@@ -27,8 +27,7 @@ public class Hud implements Disposable {
 	Label coinValLabel;
 
 	Label healthValLabel;
-	boolean minigame;
-	
+
 	public Hud(DeadLast game) {
 		viewport = new ExtendViewport(DeadLast.V_WIDTH, DeadLast.V_HEIGHT);
 		batch = new SpriteBatch();
@@ -54,8 +53,7 @@ public class Hud implements Disposable {
 		topView.add(worldLabel).expandX().padTop(10);
 		topView.add(scoreLabel).expandX().padTop(10);
 
-		if(GameManager.getInstance(game).getLevelName() == "minigame"){
-			minigame = true;
+		if(GameManager.getInstance(game).getMinigame()){
 			coinLabel = new Label("Coins Collected: ", skin);
 			coinValLabel = new Label(String.format("%02d",0),skin);
 			topView.add(coinLabel).expandX().padTop(10);
@@ -65,7 +63,7 @@ public class Hud implements Disposable {
 		topView.add(levelLabel).expandX();
 		topView.add(scoreValLabel).expandX();
 
-		if(minigame == true){ topView.add(coinValLabel).expandX(); }
+		if(GameManager.getInstance(game).getMinigame()){ topView.add(coinValLabel).expandX(); }
 
 		stage.addActor(topView);
 		
@@ -98,8 +96,8 @@ public class Hud implements Disposable {
 		levelLabel.setText(name);
 	}
 
-	public void setCoinsCollected(int coinsCollected){
-		if(minigame == true) {
+	public void setCoinsCollected(int coinsCollected, DeadLast game){
+		if(GameManager.getInstance(game).getMinigame()) {
 			coinValLabel.setText(String.format("%02d", coinsCollected));
 		}
 	}

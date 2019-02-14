@@ -72,6 +72,9 @@ public class Level implements Disposable {
 				case "FAST":
 					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.FAST, new Vector2(x,y)));
 					break;
+				case "BOSS":
+					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.BOSS, new Vector2(x,y)));
+					break;
 				default:
 					break;
 				}
@@ -108,6 +111,10 @@ public class Level implements Disposable {
 		
 		MapBodyBuilder.buildBodies(tiledMap, gameManager.getWorld(), "Walls");
         MapBodyBuilder.buildBodies(tiledMap, gameManager.getWorld(), "Furniture");
+	}
+
+	public TiledMap getTiledMap(){
+		return tiledMap;
 	}
 	
 	public TiledMap load() {

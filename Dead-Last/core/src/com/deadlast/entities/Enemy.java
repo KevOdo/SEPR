@@ -37,7 +37,8 @@ public class Enemy extends Mob {
 		BOMBER,
 		HORDLING,
 		JOCKEY,
-		NORMAL
+		NORMAL,
+		BOSS
 	}
 	
 	/**
@@ -174,7 +175,7 @@ public class Enemy extends Mob {
 		    roam();
         }
 		if (inMeleeRange) {
-		    if(!GameManager.isPaused()){
+		    if(!GameManager.getInstance(game).isPaused()){
                 if (attackCooldown == 0) {
                     Player player = gameManager.getPlayer();
                     player.applyDamage(this.getStrength());
