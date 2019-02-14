@@ -16,6 +16,8 @@ import com.deadlast.world.WorldContactListener;
 
 import box2dLight.ConeLight;
 
+import java.util.Random;
+
 /**
  * A hostile mob that will attempt to damage the player.
  * @author Xzytl
@@ -131,7 +133,30 @@ public class Enemy extends Mob {
 		Vector2 playerLoc = gameManager.getPlayer().getPos();
 		this.b2body.setLinearVelocity((playerLoc.x - b2body.getPosition().x), (playerLoc.y - b2body.getPosition().y));
 	}
-	
+
+	public void roam(){
+	    Random random = new Random();
+	    int x = random.nextInt(300);
+	    switch(x){
+            case 1:
+                this.b2body.setLinearVelocity(5,0);
+                this.setAngle(270);
+                break;
+            case 2:
+                this.b2body.setLinearVelocity(-5,0);
+                this.setAngle(90);
+                break;
+            case 3:
+                this.b2body.setLinearVelocity(0,5);
+                this.setAngle(0);
+                break;
+            case 4:
+                this.b2body.setLinearVelocity(0,-5);
+                this.setAngle(180);
+                break;
+        }
+    }
+
 	@Override
 	public void update(float delta) {
 		super.update(delta);
@@ -144,7 +169,9 @@ public class Enemy extends Mob {
 			double angle = Math.toDegrees(Math.atan2(playerLoc.y - b2body.getPosition().y, playerLoc.x - b2body.getPosition().x)) - 90;
 			this.setAngle(angle);
 			followPlayer();
-		}
+		} else{
+		    roam();
+        }
 		if (inMeleeRange) {
 			if (attackCooldown == 0) {
 				Player player = gameManager.getPlayer();
