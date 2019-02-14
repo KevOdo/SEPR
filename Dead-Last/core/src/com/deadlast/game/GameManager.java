@@ -2,6 +2,7 @@ package com.deadlast.game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Gdx;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -237,9 +239,10 @@ public class GameManager implements Disposable {
 		if(!this.enemies.contains(Enemy.Type.BOSS)){
 			MapLayer fore2Layer = level.getTiledMap().getLayers().get("Foreground 2");
 			fore2Layer.setVisible(false);
-			MapLayer furnLayer = level.getTiledMap().getLayers().get("Furniture");
+			MapLayer furnLayer = level.getTiledMap().getLayers().get("Objects");
 			MapObjects obj = furnLayer.getObjects();
-			obj.get("Barrier");
+			MapObject object = obj.get("Barrier");
+			obj.remove(object);
 		}else{
 		}
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="2019.01.30" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="11">
+<map version="1.2" tiledversion="2019.01.30" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="12">
  <tileset firstgid="1" source="finaltileset.tsx"/>
  <layer id="1" name="Background" width="100" height="100">
   <data encoding="base64">
@@ -21,6 +21,7 @@
    <point/>
   </object>
   <object id="3" name="ExitPoint" x="1376" y="1121.33" width="129.333" height="58.6667"/>
+  <object id="11" name="Barrier" x="1344" y="1257" width="180" height="47"/>
  </objectgroup>
  <objectgroup id="5" name="Entities">
   <object id="10" name="EnemySpawn1" type="Enemy.BOSS" x="1434" y="1486">
@@ -39,7 +40,5 @@
   <object id="8" x="1522.67" y="986.667" width="709.333" height="266.667"/>
   <object id="9" x="1309.33" y="928" width="280" height="172"/>
  </objectgroup>
- <objectgroup id="7" name="Furniture">
-  <object id="2" name="Barrier" type="Barrier" x="1349" y="1256.67" width="175.333" height="47.3333"/>
- </objectgroup>
+ <objectgroup id="7" name="Furniture"/>
 </map>
