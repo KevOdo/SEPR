@@ -126,6 +126,11 @@ public class Enemy extends Mob {
 		this.inMeleeRange = false;
 		b2body.setSleepingAllowed(true);
 	}
+
+	public void followPlayer(){
+		Vector2 playerLoc = gameManager.getPlayer().getPos();
+		this.b2body.setLinearVelocity((playerLoc.x - b2body.getPosition().x), (playerLoc.y - b2body.getPosition().y));
+	}
 	
 	@Override
 	public void update(float delta) {
@@ -138,6 +143,7 @@ public class Enemy extends Mob {
 			Vector2 playerLoc = gameManager.getPlayer().getPos();
 			double angle = Math.toDegrees(Math.atan2(playerLoc.y - b2body.getPosition().y, playerLoc.x - b2body.getPosition().x)) - 90;
 			this.setAngle(angle);
+			followPlayer();
 		}
 		if (inMeleeRange) {
 			if (attackCooldown == 0) {
