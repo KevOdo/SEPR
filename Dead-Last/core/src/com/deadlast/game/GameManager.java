@@ -89,6 +89,7 @@ public class GameManager implements Disposable {
 	private boolean minigame = false;
 	private boolean pause = false;
 	private boolean bossEncounter = false;
+	private boolean bossDelFlag = false;
 	
 	private GameManager(DeadLast game) {
 		this.game = game;
@@ -236,13 +237,10 @@ public class GameManager implements Disposable {
 	}
 
 	public void checkBoss(){
-		if(!this.enemies.contains(Enemy.Type.BOSS)){
-			MapLayer fore2Layer = level.getTiledMap().getLayers().get("Foreground 2");
-			fore2Layer.setVisible(false);
-			MapLayer furnLayer = level.getTiledMap().getLayers().get("Objects");
-			MapObjects obj = furnLayer.getObjects();
-			MapObject object = obj.get("Barrier");
-			obj.remove(object);
+		if(bossDelFlag){
+			bossDelFlag = false;
+			levelNum++;
+			transferLevel();
 		}else{
 		}
 	}
@@ -369,6 +367,9 @@ public class GameManager implements Disposable {
 				((Mob)e).delete();
 			} else {
 				e.delete();
+			}
+			if(bossEncounter){
+				bossDelFlag = true;
 			}
 		});
 		deadEntities.forEach(e -> this.score += (e.getScoreValue() * getScoreMultiplier()));
