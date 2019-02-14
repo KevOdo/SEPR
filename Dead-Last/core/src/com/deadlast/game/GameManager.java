@@ -80,6 +80,7 @@ public class GameManager implements Disposable {
 	private int winLevel = 0;
 
 	private static boolean minigame = false;
+	private static boolean pause = false;
 	
 	private GameManager(DeadLast game) {
 		this.game = game;
@@ -326,9 +327,12 @@ public class GameManager implements Disposable {
 			winLevel = -1;
 			game.changeScreen(DeadLast.END);
 		}
+		checkPause();
 		handleInput();
-		// Step through the physics world simulation
-		world.step(1/60f, 6, 2);
+		if(!pause){
+			// Step through the physics world simulation
+			world.step(1/60f, 6, 2);
+		}
 		// Centre the camera on the player character
 		gameCamera.position.x = player.getBody().getPosition().x;
 		gameCamera.position.y = player.getBody().getPosition().y;
@@ -356,6 +360,20 @@ public class GameManager implements Disposable {
 		this.hud.setHealth(this.player.getHealth());
 		this.hud.setScore(this.score);
 		this.hud.setCoinsCollected(this.score / 10);
+	}
+
+	public static boolean isPaused(){
+		return pause;
+	}
+
+	public void checkPause(){
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			if(pause){
+				pause = false;
+			} else{
+				pause = true;
+			}
+		}
 	}
 	
 	/**

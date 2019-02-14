@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.deadlast.game.DeadLast;
+import com.deadlast.game.GameManager;
 import com.deadlast.world.BodyFactory;
 import com.deadlast.world.FixtureType;
 import com.deadlast.world.WorldContactListener;
@@ -173,11 +174,13 @@ public class Enemy extends Mob {
 		    roam();
         }
 		if (inMeleeRange) {
-			if (attackCooldown == 0) {
-				Player player = gameManager.getPlayer();
-				player.applyDamage(this.getStrength());
-				attackCooldown = (float) ((-0.5 * (this.getSpeed())) + 3);
-			}
+		    if(!GameManager.isPaused()){
+                if (attackCooldown == 0) {
+                    Player player = gameManager.getPlayer();
+                    player.applyDamage(this.getStrength());
+                    attackCooldown = (float) (1.5 - (0.05 * (this.getSpeed())));
+                }
+            }
 		}
 		if (attackCooldown - delta <= 0) {
 			attackCooldown = 0;
