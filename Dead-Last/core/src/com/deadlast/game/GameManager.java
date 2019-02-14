@@ -78,6 +78,8 @@ public class GameManager implements Disposable {
 	private float time;
 	
 	private int winLevel = 0;
+
+	private static boolean minigame = false;
 	
 	private GameManager(DeadLast game) {
 		this.game = game;
@@ -112,6 +114,9 @@ public class GameManager implements Disposable {
 	 * Creates/refreshes parameters required when a new level is loaded.
 	 */
 	public void loadLevel() {
+		if(minigame){
+			levelNum = levels.length-1;
+		}
 		if (world != null) {
 			world.dispose();
 		}
@@ -421,7 +426,12 @@ public class GameManager implements Disposable {
 			game.changeScreen(DeadLast.END);
 		}
 	}
-	
+
+	public static void setMinigame(){
+		minigame = true;
+	}
+
+
 	/**
 	 * Renders entities held by this game manager.
 	 */

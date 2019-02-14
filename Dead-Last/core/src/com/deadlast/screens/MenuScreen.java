@@ -71,6 +71,19 @@ public class MenuScreen extends DefaultScreen {
 				game.changeScreen(DeadLast.HELP);
 			}
 		});
+
+		TextButton miniButton = new TextButton("Minigame", skin);
+		miniButton.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				GameManager.setMinigame();
+				if (GameManager.getInstance(game).isGameRunning()) {
+					game.changeScreen(DeadLast.GAME);
+				} else {
+					game.changeScreen(DeadLast.CHARACTER);
+				}
+			}
+		});
 		
 		TextButton exitButton = new TextButton("Exit", skin);
 		exitButton.addListener(new ClickListener() {
@@ -86,6 +99,8 @@ public class MenuScreen extends DefaultScreen {
 		mainTable.row();
 		mainTable.add(helpButton).fillX().uniformX();
 		mainTable.row().pad(10, 0, 10, 0);
+		mainTable.add(miniButton).fillX().uniformX();
+		mainTable.row();
 		mainTable.add(exitButton).fillX().uniformX();
 		
 		stage.addActor(mainTable);
