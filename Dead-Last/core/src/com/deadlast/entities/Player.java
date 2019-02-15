@@ -35,6 +35,8 @@ public class Player extends Mob {
 	 */
 	@SuppressWarnings("unused")
 	private boolean isHidden;
+
+	private boolean attkCooldown = false;
 	
 	/**
 	 * Whether the player is attempting to use their attack ability.
@@ -187,14 +189,21 @@ public class Player extends Mob {
 				activePowerUps.remove(entry.getKey());
 			}
 		}
-		if (isAttacking) {
-			if (attackCooldown - delta <= 0) {
-				enemiesInRange.forEach(e -> e.applyDamage(this.getStrength()));
-				attackCooldown = 2f;
+		if(attkCooldown){
+			if(attackCooldown - delta <= 0){
+				attkCooldown = false;
+				System.out.println("Attack off cooldown");
 			} else {
 				attackCooldown -= delta;
 			}
-			
+		}
+		if (isAttacking) {
+			if (!attkCooldown) {
+				enemiesInRange.forEach(e -> e.applyDamage(this.getStrength()));
+				attackCooldown = 1f;
+				attkCooldown = true;
+				System.out.println("Attack on cooldown");
+			}
 		}
 	}
 	
