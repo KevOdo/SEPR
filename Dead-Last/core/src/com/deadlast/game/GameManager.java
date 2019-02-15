@@ -77,7 +77,7 @@ public class GameManager implements Disposable {
 	
 	private int totalScore;
 	
-	private String[] levels = {"bossLevel1","level1","level2","level3","minigame"};
+	private String[] levels = {"level1","level2","level3","minigame","bossLevel1","level4","level5","level6","bossLevel1"};
 	private Level level;
 	private int levelNum = 0;
 	
