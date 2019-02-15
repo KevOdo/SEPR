@@ -72,6 +72,21 @@ public class Level implements Disposable {
 				case "FAST":
 					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.FAST, new Vector2(x,y)));
 					break;
+				case "HEAVY":
+					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.HEAVY, new Vector2(x,y)));
+					break;
+				case "BOMBER":
+					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.BOMBER, new Vector2(x,y)));
+					break;
+				case "HOARDLING":
+					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.HORDLING, new Vector2(x,y)));
+					break;
+				case "JOCKEY":
+					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.JOCKEY, new Vector2(x,y)));
+					break;
+				case "NORMAL":
+					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.NORMAL, new Vector2(x,y)));
+					break;
 				case "BOSS":
 					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.BOSS, new Vector2(x,y)));
 					break;
