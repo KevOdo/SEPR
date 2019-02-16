@@ -159,6 +159,14 @@ public class Enemy extends Mob {
         }
     }
 
+    public boolean playerVisible(){
+		if(gameManager.getPlayer().isPowerUpActive(PowerUp.Type.STEALTH)){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	@Override
 	public void update(float delta) {
 		super.update(delta);
@@ -166,7 +174,7 @@ public class Enemy extends Mob {
 			this.setAlive(false);
 			return;
 		}
-		if (knowsPlayerLocation) {
+		if (knowsPlayerLocation && playerVisible()) {
 			Vector2 playerLoc = gameManager.getPlayer().getPos();
 			double angle = Math.toDegrees(Math.atan2(playerLoc.y - b2body.getPosition().y, playerLoc.x - b2body.getPosition().x)) - 90;
 			this.setAngle(angle);
@@ -174,7 +182,7 @@ public class Enemy extends Mob {
 		} else{
 		    roam();
         }
-		if (inMeleeRange) {
+		if (inMeleeRange && playerVisible()) {
 		    if(!GameManager.getInstance(game).isPaused()){
                 if (attackCooldown == 0) {
                     Player player = gameManager.getPlayer();

@@ -42,6 +42,10 @@ public class PowerUpFactory {
 		case COIN:
 			builder.setSprite(new Sprite(new Texture(Gdx.files.internal("entities/coin_powerup.png"))));
 			break;
+		case STEALTH:
+			break;
+		case DOUBLE_DAMAGE:
+			break;
 		default:
 			builder.setSprite(new Sprite(new Texture(Gdx.files.internal("entities/blank_powerup.png"))));
 			break;
