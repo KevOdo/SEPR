@@ -203,11 +203,19 @@ public class Player extends Mob {
 		}
 		if (isAttacking) {
 			if (!attkCooldown) {
-				enemiesInRange.forEach(e -> e.applyDamage(this.getStrength()));
+				enemiesInRange.forEach(e -> e.applyDamage(this.getStrength() * getDamageMultiplier()));
 				attackCooldown = 1f;
 				this.hud.setCooldown(true);
 				attkCooldown = true;
 			}
+		}
+	}
+
+	public int getDamageMultiplier(){
+		if(this.isPowerUpActive(PowerUp.Type.DOUBLE_DAMAGE)){
+			return 2;
+		} else {
+			return 1;
 		}
 	}
 

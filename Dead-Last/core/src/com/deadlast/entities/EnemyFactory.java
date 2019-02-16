@@ -29,13 +29,13 @@ public class EnemyFactory {
 				.setGame(game);
 		switch(type) {
 		case BOMBER:
-			builder.setHealthStat(10)
+			builder.setHealthStat(8)
 					.setSpeedStat(6)
 					.setStrengthStat(10)
 					.setDetectionStat(9)
 					.setSprite(null)
-					.setScoreValue(50)
-					.setBodyRadius(0.75f);
+					.setScoreValue(60)
+					.setBodyRadius(0.4f);
 			break;
 		case FAST:
 			builder.setHealthStat(4)
@@ -56,44 +56,43 @@ public class EnemyFactory {
 				.setBodyRadius(0.75f);
 			break;
 		case HORDLING:
-			builder.setHealthStat(10)
-					.setSpeedStat(6)
-					.setStrengthStat(10)
-					.setDetectionStat(9)
+			builder.setHealthStat(2)
+					.setSpeedStat(10)
+					.setStrengthStat(2)
+					.setDetectionStat(10)
 					.setSprite(null)
-					.setScoreValue(50)
-					.setBodyRadius(0.75f);
+					.setScoreValue(5)
+					.setBodyRadius(0.2f);
 			break;
 		case JOCKEY:
 			builder.setHealthStat(10)
-					.setSpeedStat(6)
-					.setStrengthStat(10)
+					.setSpeedStat(9)
+					.setStrengthStat(4)
 					.setDetectionStat(9)
 					.setSprite(null)
-					.setScoreValue(50)
-					.setBodyRadius(0.75f);
+					.setScoreValue(80)
+					.setBodyRadius(0.6f);
 			break;
 		case NORMAL:
-			builder.setHealthStat(10)
+			builder.setHealthStat(6)
 					.setSpeedStat(6)
-					.setStrengthStat(10)
-					.setDetectionStat(9)
+					.setStrengthStat(6)
+					.setDetectionStat(6)
 					.setSprite(null)
-					.setScoreValue(50)
-					.setBodyRadius(0.75f);
+					.setScoreValue(10)
+					.setBodyRadius(0.4f);
 			break;
 		case BOSS:
 			builder.setHealthStat(50)
 					.setSpeedStat(2)
 					.setStrengthStat(4)
-					.setDetectionStat(7)
+					.setDetectionStat(10)
 					.setSprite(null)
 					.setScoreValue(100)
 					.setBodyRadius(1.5f);
 			break;
 		default:
 			break;
-		
 		}
 		return builder;
 	}

@@ -77,7 +77,7 @@ public class GameManager implements Disposable {
 	
 	private int totalScore;
 	
-	private String[] levels = {"level1","level2","level3","minigame","bossLevel1","level4","level5","level6","bossLevel1"};
+	private String[] levels = {"level1","level2","level3","bossLevel1","level4","level5","level6","bossLevel1","minigame"};
 	private Level level;
 	private int levelNum = 0;
 	
@@ -466,7 +466,7 @@ public class GameManager implements Disposable {
 	}
 	
 	public void transferLevel() {
-		if (levelNum < levels.length) {
+		if (levelNum < levels.length -1) {
 			loadLevel();
 		} else {
 			gameRunning  = false;
