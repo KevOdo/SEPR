@@ -389,6 +389,7 @@ public class GameManager implements Disposable {
 		this.hud.setHealth(this.player.getHealth());
 		this.hud.setScore(this.score);
 		this.hud.setCoinsCollected(this.score / 10, game);
+		this.hud.setCooldown(this.player.getCooldown());
 	}
 
 	public boolean isPaused(){
