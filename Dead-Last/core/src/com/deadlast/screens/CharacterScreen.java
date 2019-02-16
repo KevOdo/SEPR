@@ -77,6 +77,41 @@ public class CharacterScreen extends DefaultScreen {
 		});
 		
 		table.add(char2Button);
+
+		table.row();
+
+		Label charTitle3 = new Label("Stealthy", skin);
+		Label charTitle4 = new Label("Runner", skin);
+		table.add(charTitle3).align(Align.left).width(Value.percentWidth(.45F, table));
+		table.add(charTitle4).align(Align.left).width(Value.percentWidth(.45F, table));
+		table.row();
+		Label char3Label = new Label("This student is a sneaky bastard.", skin);
+		char3Label.setWrap(true);
+		table.add(char3Label).align(Align.left).width(Value.percentWidth(.45F, table));
+		Label char4Label = new Label("The runner has been running away from his problems all his life, so he's fast.", skin);
+		char4Label.setWrap(true);
+		table.add(char4Label).align(Align.left).width(Value.percentWidth(.45F, table));
+		table.row();
+
+		TextButton char3Button = new TextButton("Select", skin);
+		char3Button.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				selectCharacter(PlayerType.STEALTH);
+			}
+		});
+
+		table.add(char3Button);
+
+		TextButton char4Button = new TextButton("Select", skin);
+		char4Button.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				selectCharacter(PlayerType.RUNNER);
+			}
+		});
+
+		table.add(char4Button);
 		
 		stage.addActor(table);
 	}
