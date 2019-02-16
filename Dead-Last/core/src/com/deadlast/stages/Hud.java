@@ -18,6 +18,7 @@ public class Hud implements Disposable {
 	public ExtendViewport viewport;
 	public Table topView;
 	public Table bottomView;
+	public Table centreView;
 	
 	private SpriteBatch batch;
 	
@@ -25,8 +26,8 @@ public class Hud implements Disposable {
 	Label scoreValLabel;
 	Label levelLabel;
 	Label coinValLabel;
-
 	Label healthValLabel;
+	Label cooldownLable;
 
 	public Hud(DeadLast game) {
 		viewport = new ExtendViewport(DeadLast.V_WIDTH, DeadLast.V_HEIGHT);
@@ -78,6 +79,16 @@ public class Hud implements Disposable {
 		bottomView.add(healthValLabel).padBottom(10);
 		
 		stage.addActor(bottomView);
+
+		centreView = new Table();
+		centreView.center();
+		centreView.setFillParent(true);
+
+		cooldownLable = new Label("", skin);
+
+		centreView.add(cooldownLable).padBottom(70);
+
+		stage.addActor(centreView);
 	}
 	
 	public void setTime(int time) {
@@ -94,6 +105,14 @@ public class Hud implements Disposable {
 	
 	public void setLevelName(String name) {
 		levelLabel.setText(name);
+	}
+
+	public void setCooldown(boolean cooldown){
+		if(cooldown){
+			cooldownLable.setText("Attack on cooldown");
+		} else{
+			cooldownLable.setText("");
+		}
 	}
 
 	public void setCoinsCollected(int coinsCollected, DeadLast game){

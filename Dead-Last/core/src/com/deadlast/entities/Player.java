@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.deadlast.game.DeadLast;
 import com.deadlast.game.GameManager;
+import com.deadlast.stages.Hud;
 import com.deadlast.world.BodyFactory;
 import com.deadlast.world.FixtureType;
 import com.deadlast.world.WorldContactListener;
@@ -64,6 +65,8 @@ public class Player extends Mob {
 	 * damaged when the attack ability is used.
 	 */
 	private Set<Enemy> enemiesInRange;
+
+	private Hud hud;
 	
 	/**
 	 * Default constructor
@@ -85,6 +88,7 @@ public class Player extends Mob {
 		this.isHidden = true;
 		this.activePowerUps = new ConcurrentHashMap<>();
 		this.enemiesInRange = new HashSet<>();
+		hud = new Hud(game);
 	}
 	
 	public int getStealthStat() {
@@ -191,8 +195,8 @@ public class Player extends Mob {
 		}
 		if(attkCooldown){
 			if(attackCooldown - delta <= 0){
+				this.hud.setCooldown(false);
 				attkCooldown = false;
-				System.out.println("Attack off cooldown");
 			} else {
 				attackCooldown -= delta;
 			}
@@ -201,11 +205,13 @@ public class Player extends Mob {
 			if (!attkCooldown) {
 				enemiesInRange.forEach(e -> e.applyDamage(this.getStrength()));
 				attackCooldown = 1f;
+				this.hud.setCooldown(true);
 				attkCooldown = true;
-				System.out.println("Attack on cooldown");
 			}
 		}
 	}
+
+	public boolean getCooldown(){return this.attkCooldown;}
 	
 	public static class Builder {
 		

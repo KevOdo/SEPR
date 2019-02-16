@@ -89,7 +89,7 @@ public class EnemyFactory {
 					.setDetectionStat(7)
 					.setSprite(null)
 					.setScoreValue(100)
-					.setBodyRadius(0.4f);
+					.setBodyRadius(1.5f);
 			break;
 		default:
 			break;
