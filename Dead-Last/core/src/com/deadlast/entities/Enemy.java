@@ -38,7 +38,8 @@ public class Enemy extends Mob {
 		HORDLING,
 		JOCKEY,
 		NORMAL,
-		BOSS
+		BOSS,
+		BOSS2
 	}
 	
 	/**

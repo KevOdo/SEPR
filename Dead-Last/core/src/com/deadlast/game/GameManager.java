@@ -231,7 +231,7 @@ public class GameManager implements Disposable {
 		enemy.defineBody();
 		this.enemies.add(enemy);
 		this.entities.add(enemy);
-		if(type == Enemy.Type.BOSS){
+		if(type == Enemy.Type.BOSS || type == Enemy.Type.BOSS2){
 			bossEncounter = true;
 		}
 	}

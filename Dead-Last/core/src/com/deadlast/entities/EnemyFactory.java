@@ -91,6 +91,15 @@ public class EnemyFactory {
 					.setScoreValue(100)
 					.setBodyRadius(1.5f);
 			break;
+		case BOSS2:
+			builder.setHealthStat(80)
+					.setSpeedStat(4)
+					.setStrengthStat(3)
+					.setDetectionStat(10)
+					.setSprite(null)
+					.setScoreValue(200)
+					.setBodyRadius(1.5f);
+			break;
 		default:
 			break;
 		}
