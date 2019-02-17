@@ -77,12 +77,13 @@ public class GameManager implements Disposable {
 	
 	private int totalScore;
 	
-	private String[] levels = {"level1","level2","level3","bossLevel1","level4","level5","level6","bossLevel1","minigame"};
+	private String[] levels = {"Comp Sci","Law","Ron Cooke","Boss Level 1","Central Hall","Sports Hall","D Bar","Boss Level 1","Minigame"};
 	private Level level;
 	private int levelNum = 0;
 	
 	private int score;
 	private float time;
+	private int oldHealth = 50;
 	
 	private int winLevel = 0;
 
@@ -153,13 +154,13 @@ public class GameManager implements Disposable {
 		
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(level.load(), 1/32f);
 		tiledMapRenderer.setView(gameCamera);
-		
+
 		player = new Player.Builder()
 				.setGame(game)
 				.setSprite(new Sprite(new Texture(Gdx.files.internal("entities/player.png"))))
 				.setBodyRadius(playerType.getBodyRadius())
 				.setInitialPosition(playerSpawn)
-				.setHealthStat(playerType.getHealth())
+				.setHealthStat(getHealth())
 				.setSpeedStat(playerType.getSpeed())
 				.setStealthStat(playerType.getStealth())
 				.setStrengthStat(playerType.getStrength())
@@ -210,6 +211,10 @@ public class GameManager implements Disposable {
 	public void setPlayerType(PlayerType type) {
 		this.playerType = type;
 	}
+
+	public int getHealth(){
+		return oldHealth;
+	}
 	
 	public PlayerType getPlayerType() {
 		return playerType;
@@ -238,7 +243,7 @@ public class GameManager implements Disposable {
 
 	public void checkBoss(){
 		if(bossDelFlag){
-			bossDelFlag = false;
+			bossEncounter = bossDelFlag = false;
 			levelNum++;
 			transferLevel();
 		}else{
@@ -353,6 +358,7 @@ public class GameManager implements Disposable {
 		if(!pause){
 			// Step through the physics world simulation
 			world.step(1/60f, 6, 2);
+			time += delta;
 		}
 		// Centre the camera on the player character
 		gameCamera.position.x = player.getBody().getPosition().x;
@@ -379,11 +385,8 @@ public class GameManager implements Disposable {
 			debugRenderer.render(world, gameCamera.combined);
 		}
 		minigameTimeLimit();
-		if(bossEncounter){
+		if(bossEncounter) {
 			checkBoss();
-		}
-		if(!pause) {
-			time += delta;
 		}
 		this.hud.setTime((int)Math.round(Math.floor(time)));
 		this.hud.setHealth(this.player.getHealth());
@@ -467,6 +470,7 @@ public class GameManager implements Disposable {
 	
 	public void transferLevel() {
 		if (levelNum < levels.length -1) {
+			oldHealth = this.player.getHealth();
 			loadLevel();
 		} else {
 			gameRunning  = false;

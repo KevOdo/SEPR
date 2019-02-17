@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="49">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="55">
  <tileset firstgid="1" source="finaltileset.tsx"/>
  <layer id="1" name="Background" width="100" height="100">
   <data encoding="base64">
@@ -48,6 +48,48 @@
    <properties>
     <property name="entityClass" value="PowerUp"/>
     <property name="entityType" value="REGEN"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="49" name="EnemySpawn3" type="Enemy.JOCKEY" x="1618" y="790">
+   <properties>
+    <property name="entityClass" value="Enemy"/>
+    <property name="entityType" value="JOCKEY"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="50" name="EnemySpawn4" type="Enemy.FAST" x="1486" y="414">
+   <properties>
+    <property name="entityClass" value="Enemy"/>
+    <property name="entityType" value="FAST"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="51" name="EnemySpawn5" type="Enemy.BOMBER" x="1262" y="1618">
+   <properties>
+    <property name="entityClass" value="Enemy"/>
+    <property name="entityType" value="BOMBER"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="52" name="EnemySpawn6" type="Enemy.FAST" x="1816" y="1446">
+   <properties>
+    <property name="entityClass" value="Enemy"/>
+    <property name="entityType" value="FAST"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="53" name="PowerUpSpawn3" type="PowerUp.REGEN" x="1452" y="1612">
+   <properties>
+    <property name="entityClass" value="PowerUp"/>
+    <property name="entityType" value="REGEN"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="54" name="PowerUpSpawn4" type="PowerUp.DOUBLE_DAMAGE" x="1608" y="440">
+   <properties>
+    <property name="entityClass" value="PowerUp"/>
+    <property name="entityType" value="DOUBLE_DAMAGE"/>
    </properties>
    <point/>
   </object>

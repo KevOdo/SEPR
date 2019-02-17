@@ -83,7 +83,7 @@ public class EnemyFactory {
 					.setBodyRadius(0.4f);
 			break;
 		case BOSS:
-			builder.setHealthStat(50)
+			builder.setHealthStat(20)
 					.setSpeedStat(2)
 					.setStrengthStat(4)
 					.setDetectionStat(10)
@@ -92,7 +92,7 @@ public class EnemyFactory {
 					.setBodyRadius(1.5f);
 			break;
 		case BOSS2:
-			builder.setHealthStat(80)
+			builder.setHealthStat(40)
 					.setSpeedStat(4)
 					.setStrengthStat(3)
 					.setDetectionStat(10)
