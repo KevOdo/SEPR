@@ -1,10 +1,12 @@
-package com.deadlast.testing;
+package com.deadlast.test.com.deadlast.testing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.deadlast.entities.PowerUp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -81,4 +83,28 @@ public class PlayerTest {
 		assertThrows(IllegalArgumentException.class, () -> new Player(null, null, 0.4f, null, 50, 4, 50, 50));
 	}
 
+    @Test
+    public void getStealthStat() {
+        assertEquals(player.getStealthStat(), 50);
+    }
+
+    private Boolean validDamage(Integer val) {
+        if(val == 2 || val == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Test
+    void getDamageMultiplier() {
+	    assertNotNull(player.getDamageMultiplier());
+        assertTrue(validDamage(player.getDamageMultiplier()));
+        player.isPowerUpActive(PowerUp.Type.DOUBLE_DAMAGE);
+        assertTrue(validDamage(player.getDamageMultiplier()));
+    }
+
+    @Test
+    void getCooldown() {
+	    assertNotNull(player.getCooldown());
+    }
 }

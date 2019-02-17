@@ -1,4 +1,4 @@
-package com.deadlast.testing;
+package com.deadlast.test.com.deadlast.testing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -81,4 +81,8 @@ public class EnemyTest {
 		assertThrows(IllegalArgumentException.class, () -> new Enemy(null, 10, null, 0.4f, null, 4, 10, 5, 7));
 	}
 
+    @Test
+    void playerVisible() {
+	    assertNotNull(enemy.playerVisible());
+    }
 }

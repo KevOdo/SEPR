@@ -89,6 +89,8 @@ project(":core") {
         compile "com.github.czyzby:gdx-kiwi:1.9.1.9.6"
         compile "com.github.czyzby:gdx-lml:1.9.1.9.6"
         compile "com.github.czyzby:gdx-lml-vis:1.9.1.9.6"
+        compile "org.junit.jupiter:junit-jupiter-engine:5.1.1"
+        compile "org.junit.jupiter:junit-jupiter-api:5.1.1"
         
     }
 }
