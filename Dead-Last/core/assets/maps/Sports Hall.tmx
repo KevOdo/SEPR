@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="40">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="10" nextobjectid="45">
  <tileset firstgid="1" source="finaltileset.tsx"/>
  <layer id="1" name="Background" width="100" height="100">
   <data encoding="base64">
@@ -45,6 +45,34 @@
    <point/>
   </object>
   <object id="25" name="PowerUpSpawn2" type="PowerUp.REGEN" x="1914.67" y="1674.67">
+   <properties>
+    <property name="entityClass" value="PowerUp"/>
+    <property name="entityType" value="REGEN"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="41" name="EnemySpawn3" type="Enemy.FAST" x="1868" y="1840">
+   <properties>
+    <property name="entityClass" value="Enemy"/>
+    <property name="entityType" value="FAST"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="42" name="EnemySpawn4" type="Enemy.NORMAL" x="1686" y="1446">
+   <properties>
+    <property name="entityClass" value="Enemy"/>
+    <property name="entityType" value="NORMAL"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="43" name="EnemySpawn5" type="Enemy.JOCKEY" x="1276" y="1636">
+   <properties>
+    <property name="entityClass" value="Enemy"/>
+    <property name="entityType" value="JOCKEY"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="44" name="PowerUpSpawn3" type="PowerUp.REGEN" x="1306" y="1708">
    <properties>
     <property name="entityClass" value="PowerUp"/>
     <property name="entityType" value="REGEN"/>

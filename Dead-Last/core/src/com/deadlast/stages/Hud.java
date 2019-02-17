@@ -45,8 +45,8 @@ public class Hud implements Disposable {
 		Label timeLabel = new Label("Time:", skin);
 		timeValLabel = new Label(String.format("%03d", 0), skin);
 		Label scoreLabel = new Label("Score:", skin);
-		scoreValLabel = new Label(String.format("%06d", 0), skin);
-		Label worldLabel = new Label("DeadLast", skin);
+		scoreValLabel = new Label(String.format("%04d", 0), skin);
+		Label worldLabel = new Label("Map:", skin);
 		levelLabel = new Label("Ron Cooke Hub", skin);
 		Label coinLabel;
 		
