@@ -77,7 +77,7 @@ public class GameManager implements Disposable {
 	
 	private int totalScore;
 	
-	private String[] levels = {"Comp Sci","Law","Ron Cooke","Boss Level 1","Central Hall","Sports Hall","D Bar","Boss Level 2","Minigame"};
+	private String[] levels = {"Comp Sci","Law","Ron Cooke","Boss Level 1","Central Hall","Sports Hall","D Bar","Boss Level 2"};
 	private Level level;
 	private int levelNum = 0;
 	
@@ -130,9 +130,6 @@ public class GameManager implements Disposable {
 			setInitialHealth();
 			ranOnce++;
 		}
-		if(minigame){
-			levelNum = levels.length-1;
-		}
 		if (world != null) {
 			world.dispose();
 		}
@@ -152,10 +149,15 @@ public class GameManager implements Disposable {
 		
 		score = 0;
 		time = 0;
-		
-		level = new Level(game,levels[levelNum]);
-		
-		this.hud.setLevelName(levels[levelNum]);
+
+		if(minigame){
+			level = new Level(game,"minigame");
+			this.hud.setLevelName("minigame");
+			levelNum = levels.length;
+		} else {
+			level = new Level(game,levels[levelNum]);
+			this.hud.setLevelName(levels[levelNum]);
+		}
 		
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(level.load(), 1/32f);
 		tiledMapRenderer.setView(gameCamera);
@@ -383,7 +385,7 @@ public class GameManager implements Disposable {
 			} else {
 				e.delete();
 			}
-			if(bossEncounter){
+			if(bossEncounter && (e.getScoreValue() == 100 || e.getScoreValue() == 200)){
 				bossDelFlag = true;
 			}
 		});
@@ -478,7 +480,7 @@ public class GameManager implements Disposable {
 	}
 	
 	public void transferLevel() {
-		if (levelNum < levels.length -1) {
+		if (levelNum < levels.length) {
 			oldHealth = this.player.getHealth();
 			loadLevel();
 		} else {
