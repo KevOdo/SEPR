@@ -77,14 +77,15 @@ public class GameManager implements Disposable {
 	
 	private int totalScore;
 	
-	private String[] levels = {"Comp Sci","Law","Ron Cooke","Boss Level 1","Central Hall","Sports Hall","D Bar","Boss Level 1","Minigame"};
+	private String[] levels = {"Comp Sci","Law","Ron Cooke","Boss Level 1","Central Hall","Sports Hall","D Bar","Boss Level 2","Minigame"};
 	private Level level;
 	private int levelNum = 0;
 	
 	private int score;
 	private float time;
-	private int oldHealth = 50;
-	
+	private int oldHealth;
+	private int ranOnce = 0;
+
 	private int winLevel = 0;
 
 	private boolean minigame = false;
@@ -125,6 +126,10 @@ public class GameManager implements Disposable {
 	 * Creates/refreshes parameters required when a new level is loaded.
 	 */
 	public void loadLevel() {
+		if(ranOnce < 1){
+			setInitialHealth();
+			ranOnce++;
+		}
 		if(minigame){
 			levelNum = levels.length-1;
 		}
@@ -180,7 +185,11 @@ public class GameManager implements Disposable {
 		level.dispose();
 		totalScore += score;
 	}
-	
+
+	public void setInitialHealth(){
+		oldHealth = playerType.getHealth();
+	}
+
 	/**
 	 * Sets the {@link OrthographicCamera} used by {@link GameScreen} to display the game world.
 	 * Must be set before update() is called.

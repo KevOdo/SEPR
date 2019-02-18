@@ -90,6 +90,9 @@ public class Level implements Disposable {
 				case "BOSS":
 					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.BOSS, new Vector2(x,y)));
 					break;
+				case "BOSS2":
+					enemySpawns.add(new SpawnPoint<Enemy.Type>(Enemy.Type.BOSS, new Vector2(x,y)));
+					break;
 				default:
 					break;
 				}

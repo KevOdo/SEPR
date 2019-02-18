@@ -85,10 +85,10 @@ public class CharacterScreen extends DefaultScreen {
 		table.add(charTitle3).align(Align.left).width(Value.percentWidth(.45F, table));
 		table.add(charTitle4).align(Align.left).width(Value.percentWidth(.45F, table));
 		table.row();
-		Label char3Label = new Label("This student is a sneaky bastard.", skin);
+		Label char3Label = new Label("This student is very sneaky, can avoid zombies easily.", skin);
 		char3Label.setWrap(true);
 		table.add(char3Label).align(Align.left).width(Value.percentWidth(.45F, table));
-		Label char4Label = new Label("The runner has been running away from his problems all his life, so he's fast.", skin);
+		Label char4Label = new Label("The runner is fast but weak.", skin);
 		char4Label.setWrap(true);
 		table.add(char4Label).align(Align.left).width(Value.percentWidth(.45F, table));
 		table.row();
